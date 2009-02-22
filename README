@@ -1,0 +1,12 @@
+===============
+django-a-matter
+===============
+
+Django A-matter is an application for authoring background biographical matter on newsworthy people. It is intended to be a copycat of MindTouch Deki pages like those published by WhoRunsGov.com_.
+
+A-matter is newspaper slang for the background information common to many stories that can be written in advance of a news event_.
+
+This application is in the early stages of development and shouldn't be expected to work.
+
+_ Who Runs Gov example: http://whorunsgov.com/Profiles/Rand_Beers
+_ A-matter definition: http://www.freep.com/legacy/jobspage/high/jargon.htm
