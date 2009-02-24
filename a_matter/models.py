@@ -4,11 +4,23 @@ from django.conf import settings
 
 from tagging.fields import TagField
 
+from a_matter.managers import TenureManager, PersonManager
+
 import datetime
 import dateutil
 
 
 class PersonType(models.Model):
+	"""
+	A profession or other group a person belongs to.
+	
+	Examples::
+	
+		Politician
+		Athlete
+		Actress
+
+	"""
 	name = models.CharField(_('name'), max_length=100)
 	slug = models.SlugField(_('slug'), unique=True)
 
@@ -21,6 +33,9 @@ class PersonType(models.Model):
 
 
 class Organization(models.Model):
+	"""
+	A company, government, NGO or other organization.
+	"""
 	name = models.CharField(max_length=100)
 	slug = models.SlugField(unique=True)
 	parent = models.ForeignKey('self', null=True, blank=True, help_text=_('The organization that controls this one.'))
@@ -48,9 +63,12 @@ class Organization(models.Model):
 
 
 class Position(models.Model):
+	"""
+	A job or office.
+	"""
 	name = models.CharField(max_length=100)
 	slug = models.SlugField(unique=True)
-	organization = models.ForeignKey(Organization)
+	organization = models.ForeignKey(Organization, null=True, blank=True)
 	
 	class Meta:
 		ordering = ('name',)
@@ -70,10 +88,16 @@ class Position(models.Model):
 
 
 class Tenure(models.Model):
+	"""
+	The period of time that a person holds a position.
+	
+	Positions without an `end_date` are presumed to be currently occupied.
+	"""
 	position = models.ForeignKey(Position)
 	person = models.ForeignKey(Person)
 	start_date = models.DateField()
 	end_date = models.DateField(null=True, blank=True)
+	objects = TenureManager()
 	
 	class Meta:
 		ordering = ('position', 'person')
@@ -119,8 +143,10 @@ class Person(models.Model):
 	entry = models.TextField(_('Biographical entry') help_text=_('reST markup expected.'))
 
 	# Meta
+	is_public = models.BooleanField(default=False, help_text=_('If this box is checked, the article will be published.'))
 	enable_comments = models.BooleanField(default=True)
 	tags = TagField(null=True, blank=True)
+	objects = PersonManager()
 
 	class Meta:
 		verbose_name = _('person')
