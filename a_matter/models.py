@@ -92,6 +92,16 @@ class Tenure(models.Model):
 	The period of time that a person holds a position.
 	
 	Positions without an `end_date` are presumed to be currently occupied.
+	
+  ``Managers``
+
+	``active()``
+	  The custom manager acrive() returns only changes where `end_date` is null. 
+
+	  Example::
+
+		Tenure.objects.active()
+
 	"""
 	position = models.ForeignKey(Position)
 	person = models.ForeignKey(Person)
@@ -117,6 +127,16 @@ class Tenure(models.Model):
 class Person(models.Model):
 	"""
 	A biographical entry about a newsworthy person.
+	
+	
+  ``Managers``
+
+	``live()``
+	  The custom manager live() returns only changes where `is_public` is True. 
+
+	  Example::
+
+		Person.objects.live()
 	"""
 	GENDER_CHOICES = (
 		('M', 'Male'),
