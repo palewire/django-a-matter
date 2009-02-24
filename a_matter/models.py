@@ -51,6 +51,12 @@ class Position(models.Model):
 	name = models.CharField(max_length=100)
 	slug = models.SlugField(unique=True)
 	organization = models.ForeignKey(Organization)
+	
+	class Meta:
+		ordering = ('name',)
+
+	def __unicode__(self):
+		self.name
 
 	def current_occupant(self):
 		try:
@@ -68,6 +74,20 @@ class Tenure(models.Model):
 	person = models.ForeignKey(Person)
 	start_date = models.DateField()
 	end_date = models.DateField(null=True, blank=True)
+	
+	class Meta:
+		ordering = ('position', 'person')
+
+	def __unicode__(self): 
+		if self.is_active:
+			status = 'Active'
+		else:
+			status = 'Departed'
+		u'%s %s (%s)' % (self.position.name, self.person.name, status)
+
+	def is_active(self):
+		if self.end_date: 
+			return True
 
 
 class Person(models.Model):
