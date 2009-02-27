@@ -165,7 +165,7 @@ class Person(models.Model):
 		('M', 'Male'),
 		('F', 'Female'),
 	)
-	# Indentifers
+	# Indentification
 	prefix = models.CharField(_('title or honorary prefix'), blank=True, null=True, max_length=10, help_text=_('10 characters maximum.'))
 	first_name = models.CharField(_('first name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
 	middle_name = models.CharField(_('middle name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
@@ -174,8 +174,8 @@ class Person(models.Model):
 	suffix = models.CharField(_('suffix'), blank=True, null=True, max_length=10, help_text=_('10 characters maximum.'))
 	slug = models.SlugField(_('slug'), unique=True, help_text=_('For use in URL strings. Must be unique.'))
 	gender = models.CharField(_('gender'), choices=GENDER_CHOICES, blank=True, null=True, max_length=1)
-	mugshot = models.FileField(_('mugshot'), upload_to='mugshots', blank=True)
-	mugshot_credit = models.CharField(_('mugshot credit'), blank=True, max_length=200, help_text=_('200 characters maximum.'))
+	mugshot = models.FileField(_('mugshot'), upload_to='mugshots', blank=True, null=True)
+	mugshot_credit = models.CharField(_('mugshot credit'), blank=True, null=True, max_length=200, help_text=_('200 characters maximum.'))
 
 	# Origin
 	birth_date = models.DateField(_('birth date'), blank=True, null=True)
@@ -190,7 +190,11 @@ class Person(models.Model):
 	is_public = models.BooleanField(default=False, help_text=_('If this box is checked, the article will be published.'))
 	enable_comments = models.BooleanField(default=True)
 	tags = TagField(null=True, blank=True, help_text=_('Separate tags with spaces. Connect multiple words with dashes. Ex. great-depression-two'))
+	created = models.DateTimeField(auto_now_add=True, editable=False)
+	last_edited = models.DateTimeField(auto_now=True, editable=False)
 	objects = PersonManager()
+	
+	# Add fields that automagically save the time and date
 
 	class Meta:
 		verbose_name = _('person')
