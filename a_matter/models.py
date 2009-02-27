@@ -179,7 +179,7 @@ class Person(models.Model):
 
 	# Origin
 	birth_date = models.DateField(_('birth date'), blank=True, null=True)
-	birth_place = models.ForeignKey(_('birth place'),'places.Place', blank=True, null=True)
+	birth_place = models.ForeignKey('places.Place', blank=True, null=True)
 
 	# Biography
 	person_type = models.ManyToManyField(PersonType, blank=True, null=True)
