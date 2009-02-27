@@ -170,6 +170,7 @@ class Person(models.Model):
 	first_name = models.CharField(_('first name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
 	middle_name = models.CharField(_('middle name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
 	last_name = models.CharField(_('last name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
+	nick_name = models.CharField(_('first name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum. Optional.'))
 	suffix = models.CharField(_('suffix'), blank=True, null=True, max_length=10, help_text=_('10 characters maximum.'))
 	slug = models.SlugField(_('slug'), unique=True, help_text=_('For use in URL strings. Must be unique.'))
 	gender = models.CharField(_('gender'), choices=GENDER_CHOICES, blank=True, null=True, max_length=1)
