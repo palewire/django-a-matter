@@ -17,12 +17,13 @@ class PersonType(models.Model):
 	Examples::
 	
 		Politician
+		Military Officer
 		Athlete
-		Actress
 
 	"""
-	name = models.CharField(_('name'), max_length=100)
-	slug = models.SlugField(_('slug'), unique=True)
+	name = models.CharField(_('name'), max_length=100, help_text=_('100 characters maximum.'))
+	slug = models.SlugField(_('slug'), unique=True, help_text=_('For use in URL strings. Must be unique.'))
+	person_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of biographies published about this type.'))
 
 	class Meta:
 		verbose_name = _('person type')
@@ -35,13 +36,20 @@ class PersonType(models.Model):
 class Organization(models.Model):
 	"""
 	A company, government, NGO or other organization.
+	
+	Examples::
+	
+		The United States Government
+		The Department of Defense
+		The Los Angeles Lakers
+
 	"""
-	name = models.CharField(max_length=100)
-	slug = models.SlugField(unique=True)
-	parent = models.ForeignKey('self', null=True, blank=True, help_text=_('The organization that controls this one.'))
+	name = models.CharField(max_length=100, help_text=_('100 characters maximum.'))
+	slug = models.SlugField(unique=True, help_text=_('For use in URL strings. Must be unique.'))
+	parent = models.ForeignKey('self', null=True, blank=True, help_text=_('The organization that controls this one. Optional.'))
 	headquarters = models.ForeignKey('places.Place', blank=True, null=True, help_text=_('The location of this organization\'s headquarters.'))
-	employee_count = models.IntegerField(default=0, help_text=_('The total number of biographies published about current employees.'))
-	alumni_count = models.IntegerField(default=0, help_text=_('The total number of biographies published about former employees'))
+	employee_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of biographies published about current employees.'))
+	alumni_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of biographies published about former employees'))
 
 	class Meta:
 		ordering = ('name',)
@@ -65,9 +73,16 @@ class Organization(models.Model):
 class Position(models.Model):
 	"""
 	A job or office.
+	
+	Examples::
+	
+		President
+		Secretary of Defense
+		Shooting Guard
+
 	"""
-	name = models.CharField(max_length=100)
-	slug = models.SlugField(unique=True)
+	name = models.CharField(max_length=100, help_text=_('100 characters maximum.'))
+	slug = models.SlugField(unique=True, help_text=_('For use in URL strings. Must be unique.'))
 	organization = models.ForeignKey(Organization, null=True, blank=True)
 	
 	class Meta:
@@ -104,9 +119,9 @@ class Tenure(models.Model):
 
 	"""
 	position = models.ForeignKey(Position)
-	person = models.ForeignKey(Person)
-	start_date = models.DateField()
-	end_date = models.DateField(null=True, blank=True)
+	person = models.ForeignKey('Person')
+	start_date = models.DateField(help_text=_('The date the person started on the job'))
+	end_date = models.DateField(null=True, blank=True, help_text=_('The date the person left the job. Leave empty if they currently occupy the position.'))
 	objects = TenureManager()
 	
 	class Meta:
@@ -120,14 +135,21 @@ class Tenure(models.Model):
 		u'%s %s (%s)' % (self.position.name, self.person.name, status)
 
 	def is_active(self):
-		if self.end_date: 
+		if not self.end_date: 
 			return True
+		else:
+			return False
 
 
 class Person(models.Model):
 	"""
 	A biographical entry about a newsworthy person.
 	
+	Examples::
+		
+		Barack Obama
+		Bob Gates
+		Kobe Bryant
 	
   ``Managers``
 
@@ -137,21 +159,22 @@ class Person(models.Model):
 	  Example::
 
 		Person.objects.live()
+
 	"""
 	GENDER_CHOICES = (
 		('M', 'Male'),
 		('F', 'Female'),
 	)
 	# Indentifers
-	prefix = models.CharField(_('title or honorary prefix'), blank=True, null=True, max_length=10))
-	first_name = models.CharField(_('first name'), blank=True, null=True, max_length=100)
-	middle_name = models.CharField(_('middle name'), blank=True, null=True, max_length=100)
-	last_name = models.CharField(_('last name'), blank=True, null=True, max_length=100)
-	suffix = models.CharField(_('suffix'), blank=True, null=True, max_length=10)
-	slug = models.SlugField(_('slug'), unique=True)
+	prefix = models.CharField(_('title or honorary prefix'), blank=True, null=True, max_length=10, help_text=_('10 characters maximum.'))
+	first_name = models.CharField(_('first name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
+	middle_name = models.CharField(_('middle name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
+	last_name = models.CharField(_('last name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
+	suffix = models.CharField(_('suffix'), blank=True, null=True, max_length=10, help_text=_('10 characters maximum.'))
+	slug = models.SlugField(_('slug'), unique=True, help_text=_('For use in URL strings. Must be unique.'))
 	gender = models.CharField(_('gender'), choices=GENDER_CHOICES, blank=True, null=True, max_length=1)
 	mugshot = models.FileField(_('mugshot'), upload_to='mugshots', blank=True)
-	mugshot_credit = models.CharField(_('mugshot credit'), blank=True, max_length=200)
+	mugshot_credit = models.CharField(_('mugshot credit'), blank=True, max_length=200, help_text=_('200 characters maximum.'))
 
 	# Origin
 	birth_date = models.DateField(_('birth date'), blank=True, null=True)
@@ -160,12 +183,12 @@ class Person(models.Model):
 	# Biography
 	person_type = models.ManyToManyField(PersonType, blank=True, null=True)
 	positions = models.ManyToManyField(Position, blank=True, null=True, through='Tenure')
-	entry = models.TextField(_('Biographical entry') help_text=_('reST markup expected.'))
+	entry = models.TextField(_('Biographical entry'), help_text=_('reST markup expected.'))
 
 	# Meta
 	is_public = models.BooleanField(default=False, help_text=_('If this box is checked, the article will be published.'))
 	enable_comments = models.BooleanField(default=True)
-	tags = TagField(null=True, blank=True)
+	tags = TagField(null=True, blank=True, help_text=_('Separate tags with spaces. Connect multiple words with dashes. Ex. great-depression-two'))
 	objects = PersonManager()
 
 	class Meta:
