@@ -165,12 +165,12 @@ class Person(models.Model):
 		('M', 'Male'),
 		('F', 'Female'),
 	)
-	# Indentification
+	# Identification
 	prefix = models.CharField(_('title or honorary prefix'), blank=True, null=True, max_length=10, help_text=_('10 characters maximum.'))
-	first_name = models.CharField(_('first name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
+	first_name = models.CharField(_('first name'), max_length=100, help_text=_('100 characters maximum.'))
 	middle_name = models.CharField(_('middle name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
 	last_name = models.CharField(_('last name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
-	nick_name = models.CharField(_('first name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum. Optional.'))
+	nick_name = models.CharField(_('nick name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum. Optional.'))
 	suffix = models.CharField(_('suffix'), blank=True, null=True, max_length=10, help_text=_('10 characters maximum.'))
 	slug = models.SlugField(_('slug'), unique=True, help_text=_('For use in URL strings. Must be unique.'))
 	gender = models.CharField(_('gender'), choices=GENDER_CHOICES, blank=True, null=True, max_length=1)
@@ -178,8 +178,8 @@ class Person(models.Model):
 	mugshot_credit = models.CharField(_('mugshot credit'), blank=True, null=True, max_length=200, help_text=_('200 characters maximum.'))
 
 	# Origin
-	birth_date = models.DateField(_('birth date'), blank=True, null=True)
-	birth_place = models.ForeignKey('places.Place', blank=True, null=True)
+	birth_date = models.DateField(_('birth date'), blank=True, null=True, help_text=_('YYYY-MM-DD format'))
+	birth_place = models.ForeignKey('places.Place', blank=True, null=True, help_text=_('YYYY-MM-DD format'))
 
 	# Biography
 	person_type = models.ManyToManyField(PersonType, blank=True, null=True)

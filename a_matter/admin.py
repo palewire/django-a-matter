@@ -5,9 +5,9 @@ from a_matter.models import Person
 
 class PersonAdmin(OSMGeoAdmin):
 	fieldsets = (
-		('Indentification', {'fields': ('prefix', 'first_name', 'middle_name', 'last_name', 'suffix', 'nick_name', 'slug', 'gender', 'mugshot', 'mugshot_credit',)}),
+		('Identification', {'fields': ('prefix', 'first_name', 'middle_name', 'last_name', 'suffix', 'nick_name', 'slug', 'gender', 'mugshot', 'mugshot_credit',)}),
 		('Origin', 			{'fields': ('birth_date', 'birth_place',)}),
-		('Biography', 		{'fields': ('person_type', 'positions', 'entry',)}),
+		('Biography', 		{'fields': ('person_type', 'entry',)}),
 		('Meta', 			{'fields': ('tags', 'enable_comments', 'is_public',)}),
 	)
 	list_filter = ('person_type', 'is_public',)
