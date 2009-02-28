@@ -221,3 +221,8 @@ class Person(models.Model):
 	def __unicode__(self):
 		return u'%s %s' % (self.first_name, self.last_name)
 		
+	def get_full_name(self):
+		part_list = [self.prefix, self.first_name, self.middle_name, self.last_name, self.suffix]
+		full_name = " ".join([i.strip() for i in part_list if i])
+		return full_name
+		
