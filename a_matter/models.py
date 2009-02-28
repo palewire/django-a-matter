@@ -108,7 +108,7 @@ class Tenure(models.Model):
 	
 	Positions without an `end_date` are presumed to be currently occupied.
 	
-  ``Managers``
+	``Managers``
 
 	``active()``
 	  The custom manager acrive() returns only changes where `end_date` is null. 
@@ -151,7 +151,7 @@ class Person(models.Model):
 		Bob Gates
 		Kobe Bryant
 	
-  ``Managers``
+	``Managers``
 
 	``live()``
 	  The custom manager live() returns only changes where `is_public` is True. 

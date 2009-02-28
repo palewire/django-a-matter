@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.gis.admin import OSMGeoAdmin
 
-from a_matter.models import Person
+from a_matter.models import *
 
 class PersonAdmin(OSMGeoAdmin):
 	fieldsets = (
@@ -22,4 +22,32 @@ class PersonAdmin(OSMGeoAdmin):
 	map_height = 325
 
 admin.site.register(Person, PersonAdmin)
+
+class PersonTypeAdmin(OSMGeoAdmin):
+	prepopulated_fields = {"slug": ("name",)}
+
+admin.site.register(PersonType, PersonTypeAdmin)
+
+
+class PositionAdmin(OSMGeoAdmin):
+	prepopulated_fields = {"slug": ("name",)}
+
+admin.site.register(Position, PositionAdmin)
+
+
+class OrganizationAdmin(OSMGeoAdmin):
+	prepopulated_fields = {"slug": ("name",)}
+
+admin.site.register(Organization, OrganizationAdmin)
+
+class TenureAdmin(OSMGeoAdmin):
+	pass
+
+admin.site.register(Tenure, TenureAdmin)
+
+
+
+
+
+
 
