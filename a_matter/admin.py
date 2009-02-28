@@ -5,7 +5,7 @@ from a_matter.models import *
 
 class PersonAdmin(OSMGeoAdmin):
 	fieldsets = (
-		('Identification', {'fields': ('prefix', 'first_name', 'middle_name', 'last_name', 'suffix', 'nick_name', 'slug', 'gender', 'mugshot', 'mugshot_credit',)}),
+		('Identification', {'fields': ('prefix', 'first_name', 'middle_name', 'last_name', 'suffix', 'nickname', 'slug', 'gender', 'mugshot', 'mugshot_credit',)}),
 		('Origin', 			{'fields': ('birth_date', 'birth_place',)}),
 		('Biography', 		{'fields': ('person_type', 'entry',)}),
 		('Meta', 			{'fields': ('tags', 'enable_comments', 'is_public',)}),

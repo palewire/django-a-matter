@@ -186,7 +186,7 @@ class Person(models.Model):
 	first_name = models.CharField(_('first name'), max_length=100, help_text=_('100 characters maximum.'))
 	middle_name = models.CharField(_('middle name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
 	last_name = models.CharField(_('last name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
-	nick_name = models.CharField(_('nick name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum. Optional.'))
+	nickname = models.CharField(_('nick name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum. Optional.'))
 	suffix = models.CharField(_('suffix'), blank=True, null=True, max_length=10, help_text=_('10 characters maximum.'))
 	slug = models.SlugField(_('slug'), unique=True, help_text=_('For use in URL strings. Must be unique.'))
 	gender = models.CharField(_('gender'), choices=GENDER_CHOICES, blank=True, null=True, max_length=1)
@@ -221,8 +221,8 @@ class Person(models.Model):
 		
 	def get_full_name(self):
 		part_list = [self.prefix, self.first_name, self.middle_name, self.last_name, self.suffix]
-		if self.nick_name:
-			part_list.insert(2, '"%s"' % self.nick_name)
+		if self.nickname:
+			part_list.insert(2, '"%s"' % self.nickname)
 		full_name = " ".join([i.strip() for i in part_list if i])		
 		return full_name
 		
