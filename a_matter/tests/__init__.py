@@ -6,8 +6,6 @@ from places.models import *
 
 from django.contrib.gis.geos import Point
 
-from django.utils.encoding import smart_unicode
-
 # Helper base class for changes tests that need data.
 class AMatterTestCase(TestCase):
     

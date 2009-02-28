@@ -63,7 +63,7 @@ class Organization(models.Model):
 		ordering = ('name',)
 		
 	def __unicode__(self):
-		self.name
+		return self.name
 		
 	def count_employees(self):
 		positions = self.position_set.all()
@@ -105,7 +105,7 @@ class Position(models.Model):
 		ordering = ('name',)
 
 	def __unicode__(self):
-		self.name
+		return self.name
 
 	def current_occupant(self):
 		try:
@@ -148,7 +148,7 @@ class Tenure(models.Model):
 			status = 'Active'
 		else:
 			status = 'Departed'
-		u'%s %s (%s)' % (self.position.name, self.person, status)
+		return u'%s %s (%s)' % (self.position.name, self.person, status)
 
 	def is_active(self):
 		if not self.end_date: 
