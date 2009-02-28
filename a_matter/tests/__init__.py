@@ -32,7 +32,7 @@ class AMatterTestCase(TestCase):
             organization = latimes
         )
         ruben_salazar = Person.objects.create(
-            first_name = smart_unicode('Rubén'),
+            first_name = 'Rubén',
             last_name = 'Salazar',
             slug = 'ruben-salazar',
             gender = 'M',
