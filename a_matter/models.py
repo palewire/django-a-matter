@@ -217,12 +217,18 @@ class Person(models.Model):
 		ordering = ('last_name', 'first_name',)
 
 	def __unicode__(self):
-		return u'%s %s' % (self.first_name, self.last_name)
+		return self.get_full_name()
 		
 	def get_full_name(self):
+		"""
+		Formats a person's full title as a single string.
+		"""
 		part_list = [self.prefix, self.first_name, self.middle_name, self.last_name, self.suffix]
 		if self.nickname:
+			# This is set to present the nickname in quotes.
+			# Ex. John "The Jackrabbit" Herbert Dillinger
 			part_list.insert(2, '"%s"' % self.nickname)
+		# This list comprehension will omit any of the potential name parts that are null.
 		full_name = " ".join([i.strip() for i in part_list if i])		
 		return full_name
 		
