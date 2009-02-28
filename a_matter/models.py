@@ -7,7 +7,6 @@ from tagging.fields import TagField
 from a_matter.managers import TenureManager, PersonManager
 
 import datetime
-import dateutil
 
 
 class PersonType(models.Model):
@@ -221,7 +220,4 @@ class Person(models.Model):
 
 	def __unicode__(self):
 		return u'%s %s' % (self.first_name, self.last_name)
-
-	def age(self):
-		TODAY = datetime.date.today()
-		return u'%s' % dateutil.relativedelta(TODAY, self.birth_date).years
+		

@@ -43,6 +43,7 @@ class AMatterTestCase(TestCase):
             is_public = True,
         )
         ruben_salazar.person_types.add(journalist)
+        ruben_salazar.save()
         tenure = Tenure.objects.create(
             position = reporter,
             person = ruben_salazar,

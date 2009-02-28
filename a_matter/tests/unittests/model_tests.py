@@ -2,6 +2,8 @@
 from a_matter.tests import AMatterTestCase
 from a_matter.models import *
 
+import datetime
+
 class AMatterModelTests(AMatterTestCase):
 
 	def testEntry(self):

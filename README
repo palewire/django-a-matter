@@ -9,7 +9,6 @@ A-matter is newspaper slang for the background information common to many storie
 This application is in the early stages of development and shouldn't be expected to work.
 
 Dependencies:
-> python-dateutil
 > django-places
 > django-tagging
 
