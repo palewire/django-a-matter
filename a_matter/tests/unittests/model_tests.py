@@ -12,7 +12,7 @@ class AMatterModelTests(AMatterTestCase):
 		"""
 		Test that objects can be successfully saved.
 		"""
-		ruben = self.createRuben()
+		robert, ruben = self.createReporters()
 		self.failIfEqual(ruben.birth_date, None)
 		self.assertEqual(Person.objects.get(first_name='Rubén', last_name='Salazar'), ruben)
 
@@ -20,7 +20,7 @@ class AMatterModelTests(AMatterTestCase):
 		"""
 		Test that object attributes are returning correctly.
 		"""
-		ruben = self.createRuben()
+		robert, ruben = self.createReporters()
 		self.assertEqual(ruben.first_name, 'Rubén')
 		self.assertEqual(ruben.last_name, 'Salazar')
 		self.assertEqual(ruben.slug, 'ruben-salazar')
@@ -31,9 +31,11 @@ class AMatterModelTests(AMatterTestCase):
 		self.assertEqual(ruben.person_types.all()[0].name, 'Journalist')
 		self.assertEqual(ruben.birth_place.name, 'Ciudad Juarez')
 		self.assertEqual(ruben.birth_place.point.wkt, 'POINT (31.6372222200000017 -106.4286111100000056)')
-		self.assertEqual(ruben.positions.all()[0].name, 'Reporter')
+		self.assertEqual(ruben.positions.all()[0].name, 'Columnist and Reporter')
 		self.assertEqual(ruben.positions.all()[0].organization.name, 'Los Angeles Times')
 		self.assertEqual(ruben.get_full_name(), 'Rubén Salazar')
-		self.assertEqual(list(Person.objects.live()), [ruben])
-		self.assertEqual(Tenure.objects.all()[0].is_active(), False)
-		self.assertEqual(Tenure.objects.all()[0].__unicode__(), smart_unicode('Reporter Rubén Salazar (Departed)'))
+		self.assertEqual(Person.objects.live().count(), 2)
+		self.assertEqual(list(Person.objects.live().filter(first_name='Robert')), [robert])
+		self.assertEqual(Tenure.objects.get(person=ruben).is_active(), False)
+		self.assertEqual(Tenure.objects.get(person=ruben).__unicode__(), smart_unicode('Columnist and Reporter Rubén Salazar (Departed)'))
+		self.assertEqual(list(Tenure.objects.active()), [Tenure.objects.get(person=robert)])

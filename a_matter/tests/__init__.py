@@ -9,7 +9,8 @@ from django.contrib.gis.geos import Point
 # Helper base class for changes tests that need data.
 class AMatterTestCase(TestCase):
     
-    def createRuben(self):
+    def createReporters(self):
+        # Ruben Salazar
         ciudad_juarez = Place.objects.create(
             name = 'Ciudad Juarez',
             slug = 'ciudad-juarez',
@@ -24,9 +25,9 @@ class AMatterTestCase(TestCase):
             name = 'Los Angeles Times',
             slug = 'los-angeles-times',
         )
-        reporter = Position.objects.create(
-            name = 'Reporter',
-            slug = 'reporter',
+        columnist = Position.objects.create(
+            name = 'Columnist and Reporter',
+            slug = 'columnist-and-reporter',
             organization = latimes
         )
         ruben_salazar = Person.objects.create(
@@ -43,12 +44,40 @@ class AMatterTestCase(TestCase):
         ruben_salazar.person_types.add(journalist)
         ruben_salazar.save()
         tenure = Tenure.objects.create(
-            position = reporter,
+            position = columnist,
             person = ruben_salazar,
             start_date = '1959-01-01',
             end_date = '1970-08-29'
         )
+        # Robert Lopez
+        los_angeles = Place.objects.create(
+            name = 'Los Angeles',
+            slug = 'los-angeles',
+            description = 'A city in California, USA.',
+            point = Point(34, -118.3)
+        )
+        reporter = Position.objects.create(
+            name = 'Metro Reporter',
+            slug = 'metro-reporter',
+            organization = latimes
+        )
+        robert_lopez = Person.objects.create(
+            first_name = 'Robert',
+            last_name = 'Lopez',
+            slug = 'robert-lopez',
+            gender = 'M',
+            birth_place = los_angeles,
+            entry = "A reporter for the Los Angeles Times",
+            is_public = True,
+        )
+        robert_lopez.person_types.add(journalist)
+        robert_lopez.save()
+        tenure = Tenure.objects.create(
+            position = reporter,
+            person = robert_lopez,
+            start_date = '1990-01-01',
+        )
 
-        return ruben_salazar
+        return robert_lopez, ruben_salazar
 
 from a_matter.tests.unittests.model_tests import *
