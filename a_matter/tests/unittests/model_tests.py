@@ -4,9 +4,11 @@ from a_matter.models import *
 
 class AMatterModelTests(AMatterTestCase):
 
-	def testGet(self):
+	def testEntry(self):
 		"""
-		Tests the count_changes() method invoked by signals.py
+		Tests a typical entry.
 		"""
 		ruben_salazar = self.createRuben()
 		self.assertEqual(Person.objects.get(first_name='Rubén', last_name='Salazar'), ruben_salazar)
+		
+		
