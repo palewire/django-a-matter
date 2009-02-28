@@ -23,6 +23,7 @@ class PersonType(models.Model):
 	"""
 	name = models.CharField(_('name'), max_length=100, help_text=_('100 characters maximum.'))
 	slug = models.SlugField(_('slug'), unique=True, help_text=_('For use in URL strings. Must be unique.'))
+	description = models.TextField(_('Description of the type.'), null=True, blank=True, help_text=_('reST markup expected. Optional.'))
 	person_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of biographies published about this type.'))
 
 	class Meta:
@@ -48,8 +49,16 @@ class Organization(models.Model):
 	slug = models.SlugField(unique=True, help_text=_('For use in URL strings. Must be unique.'))
 	parent = models.ForeignKey('self', null=True, blank=True, help_text=_('The organization that controls this one. Optional.'))
 	headquarters = models.ForeignKey('places.Place', blank=True, null=True, help_text=_('The location of this organization\'s headquarters.'))
+	entry = models.TextField(_('Description of the organization.'), null=True, blank=True, help_text=_('reST markup expected. Optional.'))
 	employee_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of biographies published about current employees.'))
 	alumni_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of biographies published about former employees'))
+
+	# Meta
+	is_public = models.BooleanField(default=False, help_text=_('If this box is checked, the entry will be published.'))
+	enable_comments = models.BooleanField(default=True)
+	tags = TagField(null=True, blank=True, help_text=_('Separate tags with spaces. Connect multiple words with dashes. Ex. great-depression-two'))
+	created = models.DateTimeField(auto_now_add=True, editable=False)
+	last_edited = models.DateTimeField(auto_now=True, editable=False)
 
 	class Meta:
 		ordering = ('name',)
@@ -84,6 +93,14 @@ class Position(models.Model):
 	name = models.CharField(max_length=100, help_text=_('100 characters maximum.'))
 	slug = models.SlugField(unique=True, help_text=_('For use in URL strings. Must be unique.'))
 	organization = models.ForeignKey(Organization, null=True, blank=True)
+	entry = models.TextField(_('Description of the position.'), null=True, blank=True, help_text=_('reST markup expected. Optional.'))
+
+	# Meta
+	is_public = models.BooleanField(default=False, help_text=_('If this box is checked, the entry will be published.'))
+	enable_comments = models.BooleanField(default=True)
+	tags = TagField(null=True, blank=True, help_text=_('Separate tags with spaces. Connect multiple words with dashes. Ex. great-depression-two'))
+	created = models.DateTimeField(auto_now_add=True, editable=False)
+	last_edited = models.DateTimeField(auto_now=True, editable=False)
 	
 	class Meta:
 		ordering = ('name',)
