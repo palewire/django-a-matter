@@ -200,7 +200,7 @@ class Person(models.Model):
 	birth_place = models.ForeignKey('places.Place', blank=True, null=True, help_text=_('YYYY-MM-DD format'))
 
 	# Biography
-	person_type = models.ManyToManyField(PersonType, blank=True, null=True)
+	person_types = models.ManyToManyField(PersonType, blank=True, null=True)
 	positions = models.ManyToManyField(Position, blank=True, null=True, through='Tenure')
 	entry = models.TextField(_('Biographical entry'), help_text=_('reST markup expected.'))
 
