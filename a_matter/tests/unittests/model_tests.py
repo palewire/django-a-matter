@@ -26,3 +26,8 @@ class AMatterModelTests(AMatterTestCase):
 		self.assertEqual(ruben.birth_date, '1928-03-03')
 		self.assertEqual(ruben.date_of_death, '1970-08-29')
 		self.assertEqual(ruben.entry, "A reporter for the Los Angeles Times")
+		self.assertEqual(ruben.person_types.all()[0].name, 'Journalist')
+		self.assertEqual(ruben.birth_place.name, 'Ciudad Juarez')
+		self.assertEqual(ruben.birth_place.point.wkt, 'POINT (31.6372222200000017 -106.4286111100000056)')
+		self.assertEqual(ruben.positions.all()[0].name, 'Reporter')
+		self.assertEqual(ruben.positions.all()[0].organization.name, 'Los Angeles Times')

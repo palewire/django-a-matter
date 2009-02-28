@@ -148,7 +148,7 @@ class Tenure(models.Model):
 			status = 'Active'
 		else:
 			status = 'Departed'
-		u'%s %s (%s)' % (self.position.name, self.person.name, status)
+		u'%s %s (%s)' % (self.position.name, self.person, status)
 
 	def is_active(self):
 		if not self.end_date: 
