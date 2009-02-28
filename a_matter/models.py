@@ -196,6 +196,7 @@ class Person(models.Model):
 
 	# Origin
 	birth_date = models.DateField(_('birth date'), blank=True, null=True, help_text=_('YYYY-MM-DD format'))
+	date_of_death = models.DateField(_('date of death'), blank=True, null=True, help_text=_('YYYY-MM-DD format'))
 	birth_place = models.ForeignKey('places.Place', blank=True, null=True, help_text=_('YYYY-MM-DD format'))
 
 	# Biography
