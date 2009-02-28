@@ -32,3 +32,4 @@ class AMatterModelTests(AMatterTestCase):
 		self.assertEqual(ruben.positions.all()[0].name, 'Reporter')
 		self.assertEqual(ruben.positions.all()[0].organization.name, 'Los Angeles Times')
 		self.assertEqual(ruben.get_full_name(), 'Rubén Salazar')
+		self.assertEqual(list(Person.objects.live()), [ruben])
