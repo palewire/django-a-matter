@@ -2,6 +2,8 @@
 from a_matter.tests import AMatterTestCase
 from a_matter.models import *
 
+from django.utils.encoding import smart_unicode
+
 import datetime
 
 class AMatterModelTests(AMatterTestCase):
@@ -33,3 +35,5 @@ class AMatterModelTests(AMatterTestCase):
 		self.assertEqual(ruben.positions.all()[0].organization.name, 'Los Angeles Times')
 		self.assertEqual(ruben.get_full_name(), 'Rubén Salazar')
 		self.assertEqual(list(Person.objects.live()), [ruben])
+		self.assertEqual(Tenure.objects.all()[0].is_active(), False)
+		self.assertEqual(Tenure.objects.all()[0].__unicode__(), smart_unicode('Reporter Rubén Salazar (Departed)'))

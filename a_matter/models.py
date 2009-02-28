@@ -144,7 +144,7 @@ class Tenure(models.Model):
 		ordering = ('position', 'person')
 
 	def __unicode__(self): 
-		if self.is_active:
+		if self.is_active():
 			status = 'Active'
 		else:
 			status = 'Departed'
