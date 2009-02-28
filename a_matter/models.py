@@ -210,8 +210,6 @@ class Person(models.Model):
 	created = models.DateTimeField(auto_now_add=True, editable=False)
 	last_edited = models.DateTimeField(auto_now=True, editable=False)
 	objects = PersonManager()
-	
-	# Add fields that automagically save the time and date
 
 	class Meta:
 		verbose_name = _('person')
@@ -223,6 +221,8 @@ class Person(models.Model):
 		
 	def get_full_name(self):
 		part_list = [self.prefix, self.first_name, self.middle_name, self.last_name, self.suffix]
-		full_name = " ".join([i.strip() for i in part_list if i])
+		if self.nick_name:
+			part_list.insert(2, '"%s"' % self.nick_name)
+		full_name = " ".join([i.strip() for i in part_list if i])		
 		return full_name
 		
