@@ -10,7 +10,8 @@ class TenureInline(admin.TabularInline):
 
 class PersonAdmin(OSMGeoAdmin):
 	fieldsets = (
-		('Identification', {'fields': ('prefix', 'first_name', 'middle_name', 'last_name', 'suffix', 'nickname', 'slug', 'gender', 'mugshot', 'mugshot_credit',)}),
+		('Identification', {'fields': ('prefix', 'first_name', 'middle_name', 'last_name', 'suffix', 'nickname', 'slug', 'gender',)}),
+		('Mugshot',			{'fields': ('mugshot', 'mugshot_credit',)}),
 		('Origin',			{'fields': ('birth_date', 'birth_place',)}),
 		('Biography',		{'fields': ('person_types', 'entry',)}),
 		('Meta',			{'fields': ('tags', 'enable_comments', 'is_public',)}),
