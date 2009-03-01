@@ -45,9 +45,9 @@ class AMatterModelTests(AMatterTestCase):
 		# Position
 		self.assertEqual(ruben.positions.all()[0].name, 'Metro Reporter')
 		self.assertEqual(ruben.positions.all()[0].has_entry(), False)
-		self.assertEqual(list(ruben.positions.all()[0].current_occupants()), [Tenure.objects.get(person=robert)])
+		self.assertEqual(list(ruben.positions.all()[0].get_current_occupants()), [Tenure.objects.get(person=robert)])
 		self.assertEqual(ruben.positions.all()[0].count_current_occupants(), 1)
-		self.assertEqual(list(ruben.positions.all()[0].previous_occupants()), [Tenure.objects.get(person=ruben)])
+		self.assertEqual(list(ruben.positions.all()[0].get_previous_occupants()), [Tenure.objects.get(person=ruben)])
 		self.assertEqual(ruben.positions.all()[0].count_previous_occupants(), 1)
 		# Organization
 		self.assertEqual(ruben.positions.all()[0].organization.name, 'Los Angeles Times')

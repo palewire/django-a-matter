@@ -217,19 +217,19 @@ class Position(models.Model):
 	has_entry.short_description = _('Entry')
 	has_entry.boolean = True
 
-	def current_occupants(self):
+	def get_current_occupants(self):
 		return Tenure.objects.filter(position=self, end_date__isnull=True)
 		
 	def count_current_occupants(self):
-		return len(self.current_occupants())
+		return len(self.get_current_occupants())
 	count_current_occupants.short_description = _('Active')
 		
-	def previous_occupants(self):
+	def get_previous_occupants(self):
 		previous_occupants = Tenure.objects.filter(position=self, end_date__isnull=False).order_by('-end_date')
 		return previous_occupants
 		
 	def count_previous_occupants(self):
-		return len(self.previous_occupants())
+		return len(self.get_previous_occupants())
 	count_previous_occupants.short_description = _('Departed')
 
 class Tenure(models.Model):
