@@ -30,19 +30,19 @@ class AMatterViewTests(AMatterTestCase):
 		"""
 		robert, ruben = self.createReporters()
 		# Organization
-		url = '/organization/%s/' % ruben.positions.all()[0].organization.slug
+		url = ruben.positions.all()[0].organization.get_absolute_url()
 		response = self.client.get(url)
 		self.failUnlessEqual(response.status_code, 200)
 		# Position
-		url = '/position/%s/' % robert.positions.all()[0].slug
+		url = robert.positions.all()[0].get_absolute_url()
 		response = self.client.get(url)
 		self.failUnlessEqual(response.status_code, 200)
 		# Person Type
-		url = '/person-type/%s/' % robert.person_types.all()[0].slug
+		url = robert.person_types.all()[0].get_absolute_url()
 		response = self.client.get(url)
 		self.failUnlessEqual(response.status_code, 200)
 		# Person
-		url = '/people/%s/' % ruben.slug
+		url = ruben.get_absolute_url()
 		response = self.client.get(url)
 		self.failUnlessEqual(response.status_code, 200)
 		
