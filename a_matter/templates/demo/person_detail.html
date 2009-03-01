@@ -10,17 +10,34 @@
 	
 	<h4>{{ object.get_person_types_html|safe }}</h4>
 	
-	<h4>Vitals</h4>
-	<ul>
-		{% if object.birth_date %}
-			<li>Born: {{ object.birth_date|date:"Y-m-d"}}</li>
-		{% endif %}
-		{% if object.date_of_death %}
-			<li>Died: {{ object.date_of_death|date:"Y-m-d"}}</li>
-		{% endif %}
-		<li>Gender: {{ object.get_gender_display }}</li>
-		<li>Born: {{ object.birth_place.name }}</li>
-	</ul>
+	{% if object.get_current_positions %}
+		<h4>{{ object.get_current_positions }}</h4>
+	{% endif %}
 	
+		<h4>Vitals</h4>
+		<ul>
+			{% if object.birth_date %}
+				<li>Born: {{ object.birth_date|date:"Y-m-d"}}</li>
+			{% endif %}
+			{% if object.date_of_death %}
+				<li>Died: {{ object.date_of_death|date:"Y-m-d"}}</li>
+			{% endif %}
+			{% if object.gender %}
+				<li>Gender: {{ object.get_gender_display }}</li>
+			{% endif %}
+			{% if object.birth_place %}
+				<li>Born: {{ object.birth_place.name }}</li>
+			{% endif %}
+		</ul>
+	
+		<h4>Career History</h4>
+		{% load a_matter_tags %}
+		{% get_career_history object as career_history %}
+		<ul>
+			{% for tenure in career_history %}
+				<li><a href="{{ tenure.position.get_absolute_url }}">{{ tenure.position }}</a>, {{ tenure.start_date }} - {{ tenure.end_date|default_if_none:"Present" }}</li>
+			{% endfor %}
+		</ul>
+		
 
 {% endblock %}
