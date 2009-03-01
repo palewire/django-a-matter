@@ -33,7 +33,7 @@ class PersonType(models.Model):
 		return self.name
 		
 	def count_people(self):
-		return self.person_set.all().count()
+		return self.person_set.live().count()
 
 
 class Organization(models.Model):
@@ -70,7 +70,7 @@ class Organization(models.Model):
 		
 	def count_employees(self):
 		positions = self.position_set.all()
-		occupied_positions = Tenure.objects.filter(position__in=positions, end_date__isnull=True)
+		occupied_positions = Tenure.objects.filter(position__in=positions, end_date__isnull=True, person__is_public=True)
 		employee_count = occupied_positions.count()
 		if self.organization_set:
 			for child in self.organization_set.all():
@@ -79,7 +79,7 @@ class Organization(models.Model):
 
 	def count_alumni(self):
 		positions = self.position_set.all()
-		ended_tenures = Tenure.objects.filter(position__in=positions, end_date__isnull=False)
+		ended_tenures = Tenure.objects.filter(position__in=positions, end_date__isnull=False, person__is_public=True)
 		alumni_count = ended_tenures.count()
 		if self.organization_set:
 			for child in self.organization_set.all():

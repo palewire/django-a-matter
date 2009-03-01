@@ -14,7 +14,9 @@ class AMatterModelTests(AMatterTestCase):
 		"""
 		robert, ruben = self.createReporters()
 		self.failIfEqual(ruben.birth_date, None)
+		self.failIfEqual(robert.entry, None)
 		self.assertEqual(Person.objects.get(first_name='Rubén', last_name='Salazar'), ruben)
+		self.assertEqual(Person.objects.get(first_name='Robert', last_name='Lopez'), robert)
 
 	def testEntryProperties(self):
 		"""
@@ -29,7 +31,7 @@ class AMatterModelTests(AMatterTestCase):
 		self.assertEqual(ruben.birth_date, '1928-03-03')
 		self.assertEqual(ruben.date_of_death, '1970-08-29')
 		self.assertEqual(ruben.entry, "A reporter for the Los Angeles Times")
-		self.assertEqual(ruben.person_types.all()[0].name, 'Journalist')
+		self.assertEqual(ruben.is_public, True)
 		self.assertEqual(ruben.birth_place.name, 'Ciudad Juarez')
 		self.assertEqual(ruben.birth_place.point.wkt, 'POINT (31.6372222200000017 -106.4286111100000056)')
 		self.assertEqual(ruben.get_full_name(), 'Rubén Salazar')
