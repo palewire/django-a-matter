@@ -4,6 +4,9 @@ from django.conf import settings
 
 from tagging.fields import TagField
 
+from django.db.models import signals
+from a_matter.signals import update_counts
+
 from a_matter.managers import TenureManager, PersonManager
 
 import datetime
@@ -239,3 +242,6 @@ class Person(models.Model):
 		full_name = " ".join([i.strip() for i in part_list if i])		
 		return full_name
 		
+# Rerun the totals whenever a Person is saved or deleted.
+signals.post_save.connect(update_counts, sender=Person)
+signals.post_delete.connect(update_counts, sender=Person)
