@@ -2,7 +2,7 @@
 
 {% block title %}{{ object|lower }} - {{ angle|lower }} - {{ block.super }}{% endblock %}
 
-{% block nav %}{{ block.super }} > <a href="{% url position-list %}">{{ angle|title }}</a> > <a href="{{ object.get_absolute_url }}">{{ object|title }}</a>{% endblock %}
+{% block nav %}{{ block.super }} > <a href="{% url people-list %}">{{ angle|title }}</a> > <a href="{{ object.get_absolute_url }}">{{ object|title }}</a>{% endblock %}
 
 {% block content %}
 
