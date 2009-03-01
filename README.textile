@@ -1,16 +1,16 @@
 h1. django-a-matter
 
-Django A-matter is an application for authoring background biographical matter on newsworthy people. It is intended to be a copycat of MindTouch Deki pages like those published by "WhoRunsGov.com":http://whorunsgov.com.
+Django A-matter is an application for authoring background biographical matter on newsworthy people. It is intended to be a copycat of "MindTouch Deki":http://www.mindtouch.com/ pages like those published by "WhoRunsGov.com":http://whorunsgov.com.
 
-A-matter is newspaper slang for the background information common to many stories that can be written in advance of a news event_.
+A-matter is newspaper slang for the background information common to many stories that can be written in advance of a news event.
 
 This application is in the early stages of development and shouldn't be expected to work.
 
 h3. Dependencies
 
-* django 1.0
-* django-places
-* django-tagging
+* "django 1.0":http://www.djangoproject.com/weblog/2008/sep/03/1/
+* "django-places":http://github.com/palewire/django-places/tree/master
+* "django-tagging":http://code.google.com/p/django-tagging/
 
 
 h3. References
