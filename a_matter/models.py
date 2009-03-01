@@ -28,7 +28,7 @@ class PersonType(models.Model):
 	name = models.CharField(max_length=100, help_text=_('100 characters maximum.'))
 	slug = models.SlugField(unique=True, help_text=_('For use in URL strings. Must be unique.'))
 	description = models.TextField(_('description'), null=True, blank=True, help_text=_('textile markup expected. Optional.'))
-	person_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of biographies published about this type.'))
+	person_count = models.IntegerField(default=0, editable=False, verbose_name=_('Person Count'), help_text=_('The total number of biographies published about this type.'))
 
 	class Meta:
 		verbose_name = _('person type')
@@ -47,6 +47,7 @@ class PersonType(models.Model):
 			return self.description[:100]
 		else:
 			return None
+	short_description.short_description = _('Short Description')
 		
 	def count_people(self):
 		return self.person_set.live().count()
@@ -68,8 +69,8 @@ class Organization(models.Model):
 	parent = models.ForeignKey('self', null=True, blank=True, help_text=_('The organization that controls this one. Optional.'))
 	headquarters = models.ForeignKey('places.Place', blank=True, null=True, help_text=_('The location of this organization\'s headquarters.'))
 	entry = models.TextField(null=True, blank=True, help_text=_('textile markup expected. Optional.'))
-	employee_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of biographies published about current employees.'))
-	alumni_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of biographies published about former employees'))
+	employee_count = models.IntegerField(default=0, editable=False, verbose_name=_('Employee Count'), help_text=_('The total number of biographies published about current employees.'))
+	alumni_count = models.IntegerField(default=0, editable=False, verbose_name=_('Alumni Count'), help_text=_('The total number of biographies published about former employees'))
 
 	# Meta
 	is_public = models.BooleanField(default=False, verbose_name=_('Published'), help_text=_('If this box is checked, the entry will be published.'))
@@ -187,8 +188,8 @@ class Position(models.Model):
 	slug = models.SlugField(unique=True, help_text=_('For use in URL strings. Must be unique.'))
 	organization = models.ForeignKey(Organization, null=True, blank=True)
 	entry = models.TextField(null=True, blank=True, help_text=_('textile markup expected. Optional.'))
-	current_occupant_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of active people in this position.'))
-	previous_occupant_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of people who once held this position, but have departed.'))
+	current_occupant_count = models.IntegerField(default=0, editable=False, verbose_name=('Current Occupant Count'), help_text=_('The total number of active people in this position.'))
+	previous_occupant_count = models.IntegerField(default=0, editable=False, verbose_name=('Previous Occupant Count'), help_text=_('The total number of people who once held this position, but have departed.'))
 
 	# Meta
 	is_public = models.BooleanField(default=False, verbose_name=_('Published'), help_text=_('If this box is checked, the entry will be published.'))
