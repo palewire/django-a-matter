@@ -3,14 +3,21 @@ from django.contrib.gis.admin import OSMGeoAdmin
 
 from a_matter.models import *
 
+class TenureInline(admin.TabularInline):
+	model = Tenure
+
 class PersonAdmin(OSMGeoAdmin):
 	fieldsets = (
 		('Identification', {'fields': ('prefix', 'first_name', 'middle_name', 'last_name', 'suffix', 'nickname', 'slug', 'gender', 'mugshot', 'mugshot_credit',)}),
-		('Origin', 			{'fields': ('birth_date', 'birth_place',)}),
-		('Biography', 		{'fields': ('person_type', 'entry',)}),
-		('Meta', 			{'fields': ('tags', 'enable_comments', 'is_public',)}),
+		('Origin',			{'fields': ('birth_date', 'birth_place',)}),
+		('Biography',		{'fields': ('person_types', 'entry',)}),
+		('Meta',			{'fields': ('tags', 'enable_comments', 'is_public',)}),
 	)
-	list_filter = ('person_type', 'is_public',)
+	inlines = [
+		TenureInline,
+	]
+	list_display = ('get_full_name', 'get_person_types')
+	list_filter = ('person_types', 'gender', 'is_public',)
 	date_hierarchy = 'birth_date'
 	search_fields = ('last_name', 'middle_name', 'first_name',)
 	prepopulated_fields = {"slug": ("first_name", "middle_name", "last_name")}
@@ -40,10 +47,6 @@ class OrganizationAdmin(OSMGeoAdmin):
 
 admin.site.register(Organization, OrganizationAdmin)
 
-class TenureAdmin(OSMGeoAdmin):
-	pass
-
-admin.site.register(Tenure, TenureAdmin)
 
 
 

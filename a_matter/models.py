@@ -25,7 +25,7 @@ class PersonType(models.Model):
 	"""
 	name = models.CharField(_('name'), max_length=100, help_text=_('100 characters maximum.'))
 	slug = models.SlugField(_('slug'), unique=True, help_text=_('For use in URL strings. Must be unique.'))
-	description = models.TextField(_('Description of the type.'), null=True, blank=True, help_text=_('reST markup expected. Optional.'))
+	description = models.TextField(_('description'), null=True, blank=True, help_text=_('reST markup expected. Optional.'))
 	person_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of biographies published about this type.'))
 
 	class Meta:
@@ -54,7 +54,7 @@ class Organization(models.Model):
 	slug = models.SlugField(unique=True, help_text=_('For use in URL strings. Must be unique.'))
 	parent = models.ForeignKey('self', null=True, blank=True, help_text=_('The organization that controls this one. Optional.'))
 	headquarters = models.ForeignKey('places.Place', blank=True, null=True, help_text=_('The location of this organization\'s headquarters.'))
-	entry = models.TextField(_('Description of the organization.'), null=True, blank=True, help_text=_('reST markup expected. Optional.'))
+	entry = models.TextField(null=True, blank=True, help_text=_('reST markup expected. Optional.'))
 	employee_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of biographies published about current employees.'))
 	alumni_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of biographies published about former employees'))
 
@@ -104,7 +104,7 @@ class Position(models.Model):
 	name = models.CharField(max_length=100, help_text=_('100 characters maximum.'))
 	slug = models.SlugField(unique=True, help_text=_('For use in URL strings. Must be unique.'))
 	organization = models.ForeignKey(Organization, null=True, blank=True)
-	entry = models.TextField(_('Description of the position.'), null=True, blank=True, help_text=_('reST markup expected. Optional.'))
+	entry = models.TextField(null=True, blank=True, help_text=_('reST markup expected. Optional.'))
 
 	# Meta
 	is_public = models.BooleanField(default=False, help_text=_('If this box is checked, the entry will be published.'))
@@ -118,7 +118,10 @@ class Position(models.Model):
 		unique_together = ("name", "organization",)
 
 	def __unicode__(self):
-		return self.name
+		if self.organization:
+			return u'%s (%s)' % (self.name, self.organization.name)
+		else:
+			return u'%s (Unaffiliated)' % (self.name)
 
 	def current_occupants(self):
 		return Tenure.objects.filter(position=self, end_date__isnull=True)
@@ -151,7 +154,7 @@ class Tenure(models.Model):
 	objects = TenureManager()
 	
 	class Meta:
-		ordering = ('position', 'person')
+		ordering = ('person', '-end_date')
 
 	def __unicode__(self): 
 		if self.is_active():
@@ -241,7 +244,15 @@ class Person(models.Model):
 		# This list comprehension will omit any of the potential name parts that are null.
 		full_name = " ".join([i.strip() for i in part_list if i])		
 		return full_name
-		
+	get_full_name.short_description = _('Name')
+	
+	def get_person_types(self):
+		"""
+		Creates a nice list of associated person_types for the admin
+		"""
+		return ", ".join([i.name for i in self.person_types.all()])
+	get_person_types.short_description = _('Person Type')
+			
 # Rerun the totals whenever a Person is saved or deleted.
 signals.post_save.connect(update_counts, sender=Person)
 signals.post_delete.connect(update_counts, sender=Person)
