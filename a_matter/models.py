@@ -302,7 +302,7 @@ class Person(models.Model):
 	last_name = models.CharField(blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
 	nickname = models.CharField(blank=True, null=True, max_length=100, help_text=_('100 characters maximum. Optional.'))
 	suffix = models.CharField(blank=True, null=True, max_length=10, help_text=_('10 characters maximum.'))
-	slug = models.SlugField(uniqtextileue=True, help_text=_('For use in URL strings. Must be unique.'))
+	slug = models.SlugField(unique=True, help_text=_('For use in URL strings. Must be unique.'))
 	gender = models.CharField(choices=GENDER_CHOICES, blank=True, null=True, max_length=1)
 	mugshot = models.FileField(upload_to='mugshots', blank=True, null=True)
 	mugshot_credit = models.CharField(blank=True, null=True, max_length=200, help_text=_('200 characters maximum.'))
