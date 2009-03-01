@@ -31,6 +31,9 @@ class PersonType(models.Model):
 
 	def __unicode__(self):
 		return self.name
+		
+	def count_people(self):
+		return self.person_set.all().count()
 
 
 class Organization(models.Model):

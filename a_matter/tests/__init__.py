@@ -85,6 +85,8 @@ class AMatterTestCase(TestCase):
             person = robert_lopez,
             start_date = '1990-01-01',
         )
+        robert_lopez.person_types.add(journalist)
+        robert_lopez.save()
 
         return robert_lopez, ruben_salazar
 

@@ -35,6 +35,9 @@ class AMatterModelTests(AMatterTestCase):
 		self.assertEqual(ruben.get_full_name(), 'Rubén Salazar')
 		self.assertEqual(Person.objects.live().count(), 2)
 		self.assertEqual(list(Person.objects.live().filter(first_name='Robert')), [robert])
+		# PersonType
+		self.assertEqual(robert.person_types.all()[0].name, 'Journalist')
+		self.assertEqual(robert.person_types.all()[0].count_people(), 2)
 		# Position
 		self.assertEqual(ruben.positions.all()[0].name, 'Metro Reporter')
 		self.assertEqual(list(ruben.positions.all()[0].current_occupants()), [Tenure.objects.get(person=robert)])
