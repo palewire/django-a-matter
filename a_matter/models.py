@@ -103,6 +103,7 @@ class Position(models.Model):
 	
 	class Meta:
 		ordering = ('name',)
+		unique_together = ("name", "organization",)
 
 	def __unicode__(self):
 		return self.name
