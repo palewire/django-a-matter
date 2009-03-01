@@ -3,8 +3,10 @@ from django.contrib.gis.admin import OSMGeoAdmin
 
 from a_matter.models import *
 
+
 class TenureInline(admin.TabularInline):
 	model = Tenure
+
 
 class PersonAdmin(OSMGeoAdmin):
 	fieldsets = (
@@ -16,13 +18,14 @@ class PersonAdmin(OSMGeoAdmin):
 	inlines = [
 		TenureInline,
 	]
-	list_display = ('get_full_name', 'get_person_types')
+	list_display = ('get_full_name', 'gender', 'get_person_types', 'get_current_positions', 'is_public')
 	list_filter = ('person_types', 'gender', 'is_public',)
 	filter_horizontal = ('person_types',)
 	prepopulated_fields = {"slug": ("first_name", "middle_name", "last_name")}
 	search_fields = ["first_name", "middle_name", "last_name", "entry",]
 
 admin.site.register(Person, PersonAdmin)
+
 
 class PersonTypeAdmin(OSMGeoAdmin):
 	prepopulated_fields = {"slug": ("name",)}

@@ -245,6 +245,7 @@ class Person(models.Model):
 		full_name = " ".join([i.strip() for i in part_list if i])		
 		return full_name
 	get_full_name.short_description = _('Name')
+	get_full_name.admin_order_field = 'last_name'
 	
 	def get_person_types(self):
 		"""
@@ -252,7 +253,14 @@ class Person(models.Model):
 		"""
 		return ", ".join([i.name for i in self.person_types.all()])
 	get_person_types.short_description = _('Person Type')
-			
+	
+	def get_current_positions(self):
+		"""
+		Creates a nice list of active jobs for the admin
+		"""
+		return ", ".join([i.position.__unicode__() for i in Tenure.objects.active().filter(person=self)])
+	get_current_positions.short_description = _('Current Position(s)')
+	
 # Rerun the totals whenever a Person is saved or deleted.
 signals.post_save.connect(update_counts, sender=Person)
 signals.post_delete.connect(update_counts, sender=Person)
