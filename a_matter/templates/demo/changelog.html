@@ -1,0 +1,20 @@
+{% extends "demo/index.html" %}
+
+{% block title %}{{ angle|lower }} - {{ block.super }}{% endblock %}
+
+{% block nav %}{{ block.super }} > <a href="{% url changelog %}">{{ angle|title }}</a>{% endblock %}
+
+{% block content %}
+
+	<h3>{{ angle|title }}</h3>
+	<ul>
+		{% for obj in object_list %}
+			{% ifchanged obj.last_edited.date %}<h4>{{ obj.last_edited|date:"F d, Y" }}</h4>{% endifchanged %}
+			<li>
+					{{ obj.last_edited|date:"H:i" }} - <a href="{{ obj.get_absolute_url }}">{{ obj.get_full_name }}</a>
+			</li>
+		{% endfor %}
+	</ul>
+	
+{% endblock %}
+
