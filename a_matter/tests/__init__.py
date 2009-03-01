@@ -17,13 +17,32 @@ class AMatterTestCase(TestCase):
             description = 'A city in Chihuahua, Mexico',
             point = Point(31.63722222, -106.42861111)
         )
+        los_angeles = Place.objects.create(
+            name = 'Los Angeles',
+            slug = 'los-angeles',
+            description = 'A city in California, USA.',
+            point = Point(34, -118.3)
+        )
+        chicago = Place.objects.create(
+            name = 'Chicago',
+            slug = 'chicago',
+            description = 'A city in Illinois, USA.',
+            point = Point(41.85, -87.65)
+        )
         journalist = PersonType.objects.create(
             name = 'Journalist',
             slug = 'journalist',
         )
+        tribune = Organization.objects.create(
+            name = 'The Tribune Corporation',
+            slug = 'tribune',
+            headquarters = chicago,
+        )
         latimes = Organization.objects.create(
             name = 'Los Angeles Times',
             slug = 'los-angeles-times',
+            headquarters = los_angeles,
+            parent = tribune,
         )
         reporter = Position.objects.create(
             name = 'Metro Reporter',
@@ -50,12 +69,6 @@ class AMatterTestCase(TestCase):
             end_date = '1970-08-29'
         )
         # Robert Lopez
-        los_angeles = Place.objects.create(
-            name = 'Los Angeles',
-            slug = 'los-angeles',
-            description = 'A city in California, USA.',
-            point = Point(34, -118.3)
-        )
         robert_lopez = Person.objects.create(
             first_name = 'Robert',
             last_name = 'Lopez',

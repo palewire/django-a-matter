@@ -67,15 +67,21 @@ class Organization(models.Model):
 		
 	def count_employees(self):
 		positions = self.position_set.all()
-		occupied_positions = Tenure.objects.filter(position=positions, end_date__isnull=True)
-		employees = occupied_positions.person_set.all()
-		return employees.count()
+		occupied_positions = Tenure.objects.filter(position__in=positions, end_date__isnull=True)
+		employee_count = occupied_positions.count()
+		if self.organization_set:
+			for child in self.organization_set.all():
+				employee_count += child.count_employees()
+		return employee_count
 
 	def count_alumni(self):
 		positions = self.position_set.all()
-		ended_tenures = Tenure.objects.filter(position=positions, end_date__isnull=False)
-		alumni = ended_tenures.person_set.all()
-		return alumni.count()
+		ended_tenures = Tenure.objects.filter(position__in=positions, end_date__isnull=False)
+		alumni_count = ended_tenures.count()
+		if self.organization_set:
+			for child in self.organization_set.all():
+				alumni_count += child.count_alumni()
+		return alumni_count
 
 
 class Position(models.Model):

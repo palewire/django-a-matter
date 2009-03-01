@@ -21,6 +21,7 @@ class AMatterModelTests(AMatterTestCase):
 		Test that object attributes are returning correctly.
 		"""
 		robert, ruben = self.createReporters()
+		# Person
 		self.assertEqual(ruben.first_name, 'Rubén')
 		self.assertEqual(ruben.last_name, 'Salazar')
 		self.assertEqual(ruben.slug, 'ruben-salazar')
@@ -31,13 +32,28 @@ class AMatterModelTests(AMatterTestCase):
 		self.assertEqual(ruben.person_types.all()[0].name, 'Journalist')
 		self.assertEqual(ruben.birth_place.name, 'Ciudad Juarez')
 		self.assertEqual(ruben.birth_place.point.wkt, 'POINT (31.6372222200000017 -106.4286111100000056)')
-		self.assertEqual(ruben.positions.all()[0].name, 'Metro Reporter')
-		self.assertEqual(ruben.positions.all()[0].organization.name, 'Los Angeles Times')
-		self.assertEqual(list(ruben.positions.all()[0].current_occupants()), [Tenure.objects.get(person=robert)])
-		self.assertEqual(list(ruben.positions.all()[0].previous_occupants()), [Tenure.objects.get(person=ruben)])
 		self.assertEqual(ruben.get_full_name(), 'Rubén Salazar')
 		self.assertEqual(Person.objects.live().count(), 2)
 		self.assertEqual(list(Person.objects.live().filter(first_name='Robert')), [robert])
+		# Position
+		self.assertEqual(ruben.positions.all()[0].name, 'Metro Reporter')
+		self.assertEqual(list(ruben.positions.all()[0].current_occupants()), [Tenure.objects.get(person=robert)])
+		self.assertEqual(list(ruben.positions.all()[0].previous_occupants()), [Tenure.objects.get(person=ruben)])
+		# Organization
+		self.assertEqual(ruben.positions.all()[0].organization.name, 'Los Angeles Times')
+		self.assertEqual(ruben.positions.all()[0].organization.headquarters.name, 'Los Angeles')
+		self.assertEqual(ruben.positions.all()[0].organization.headquarters.point.wkt, 'POINT (34.0000000000000000 -118.2999999999999972)')
+		self.assertEqual(ruben.positions.all()[0].organization.parent.name, 'The Tribune Corporation')
+		self.assertEqual(ruben.positions.all()[0].organization.parent.headquarters.name, 'Chicago')
+		self.assertEqual(ruben.positions.all()[0].organization.parent.headquarters.point.wkt, 'POINT (41.8500000000000014 -87.6500000000000057)')
+		self.assertEqual(ruben.positions.all()[0].organization.count_employees(), 1)
+		self.assertEqual(ruben.positions.all()[0].organization.count_alumni(), 1)
+		self.assertEqual(ruben.positions.all()[0].organization.parent.organization_set.all().count(), 1)
+		self.assertEqual(ruben.positions.all()[0].organization.parent.organization_set.all()[0].name, 'Los Angeles Times')
+		self.assertEqual(ruben.positions.all()[0].organization.parent.organization_set.all()[0].count_employees(), 1)
+		self.assertEqual(ruben.positions.all()[0].organization.parent.count_employees(), 1)
+		self.assertEqual(ruben.positions.all()[0].organization.parent.count_alumni(), 1)
+		# Tenure
 		self.assertEqual(Tenure.objects.get(person=ruben).is_active(), False)
 		self.assertEqual(Tenure.objects.get(person=ruben).__unicode__(), smart_unicode('Metro Reporter Rubén Salazar (Departed)'))
 		self.assertEqual(list(Tenure.objects.active()), [Tenure.objects.get(person=robert)])
