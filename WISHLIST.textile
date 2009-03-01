@@ -1,0 +1,12 @@
+h2. The Wishlist
+
+* Write some generic URLS to illustrate basic pages
+* Write some generic VIEWS for the same purpose
+* Write some basic FEEDS for the latest additions
+* Write some basic TEMPLATES that illustrate ez layouts
+* Decide which type of MARKUP to use in the admin
+* Write tests for the MARKUP
+* Write TEMPLATETAGS for a variety of lateral lists that might be nice (i.e. other people in a position, reverse-chron tenures for a person)
+* Write tests for MUGSHOTS upload
+* Find someway to update org counts on parent changes without sparking an infinite loop
+* sanitize is_public and all other field names for admin display
