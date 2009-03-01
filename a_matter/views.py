@@ -27,6 +27,18 @@ def organization_detail(request, slug):
 	return render_to_response('demo/organization_detail.html',
 								{'object': qs,
 								 'angle': 'Organization',})
+								
+def position_detail(request, slug):
+	qs = get_object_or_404(Position, slug=slug)
+	return render_to_response('demo/position_detail.html',
+								{'object': qs,
+								 'angle': 'Position',})
+								
+def person_type_detail(request, slug):
+	qs = get_object_or_404(PersonType, slug=slug)
+	return render_to_response('demo/person_type_detail.html',
+								{'object': qs,
+								 'angle': 'Person Type',})
 
 # Pages
 # Recently edited pages

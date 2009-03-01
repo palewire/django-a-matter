@@ -38,6 +38,10 @@ class PersonType(models.Model):
 	def __unicode__(self):
 		return self.name
 		
+	def get_absolute_url(self):
+		return ('person-type-detail', [self.slug])
+	get_absolute_url = permalink(get_absolute_url)
+		
 	def short_description(self):
 		if self.description:
 			return self.description[:100]
@@ -81,7 +85,7 @@ class Organization(models.Model):
 		return self.name
 		
 	def get_absolute_url(self):
-	    return ('organization-detail', [self.slug])
+		return ('organization-detail', [self.slug])
 	get_absolute_url = permalink(get_absolute_url)
 		
 	def has_entry(self):
@@ -200,6 +204,10 @@ class Position(models.Model):
 			return u'%s (%s)' % (self.name, self.organization.name)
 		else:
 			return u'%s (Unaffiliated)' % (self.name)
+
+	def get_absolute_url(self):
+		return ('position-detail', [self.slug])
+	get_absolute_url = permalink(get_absolute_url)
 
 	def has_entry(self):
 		if self.entry:

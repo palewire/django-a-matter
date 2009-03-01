@@ -13,7 +13,7 @@
 			<li>{{ org.grouper.name }} ({{ org.grouper.employee_count }} employees, {{ org.grouper.alumni_count }} alumni)</li>
 			<ul>
 			{% for obj in org.list %}
-				<li>{{ obj.name }} ({{ obj.count_current_occupants }} active, {{ obj.count_previous_occupants }} departed)</li>
+				<li><a href="{{ obj.get_absolute_url }}">{{ obj.name }}</a> ({{ obj.count_current_occupants }} active, {{ obj.count_previous_occupants }} departed)</li>
 			{% endfor %}
 		</ul>
 		{% endfor %}
