@@ -18,3 +18,8 @@ h3. References
 
 * "Who Runs Gov example":http://whorunsgov.com/Profiles/Rand_Beers
 * "A-matter definition":http://www.freep.com/legacy/jobspage/high/jargon.htm
+
+h3. Questions for YOU
+
+* Is any of this crap useful?
+* Am I coupling things too tightly? Just right? What?
