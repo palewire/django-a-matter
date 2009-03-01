@@ -8,6 +8,12 @@
 
 	<h3>{{ object|title }}</h3>
 	
+	{% if object.mugshot %}
+		<img src="{{ object.mugshot }}">
+		{% if object.mugshot_credit %}{{ object.mugshot_credit }}{% endif %}
+	{% endif %}
+	
+	
 	<h4>{{ object.get_person_types_html|safe }}</h4>
 	
 	{% if object.get_current_positions %}
@@ -38,6 +44,20 @@
 				<li><a href="{{ tenure.position.get_absolute_url }}">{{ tenure.position }}</a>, {{ tenure.start_date }} - {{ tenure.end_date|default_if_none:"Present" }}</li>
 			{% endfor %}
 		</ul>
+		
+		{% if object.entry %}
+			<h4>Entry</h4>
+			{% load markup%}
+			{{ object.entry|textile }}
+		{% endif %}
+		
+		
+		
+		
+		
+		
+		
+		
 		
 
 {% endblock %}

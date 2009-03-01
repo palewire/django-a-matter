@@ -12,6 +12,7 @@ h3. Dependencies
 * "django.contrib.gis a.k.a. GeoDjango":http://geodjango.org/
 * "django-places":http://github.com/palewire/django-places/tree/master
 * "django-tagging":http://code.google.com/p/django-tagging/
+* "django.contrib.markup":http://docs.djangoproject.com/en/dev/ref/contrib/?from=olddocs#markup
 
 
 h3. References
