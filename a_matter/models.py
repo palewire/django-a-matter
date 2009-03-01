@@ -107,15 +107,12 @@ class Position(models.Model):
 	def __unicode__(self):
 		return self.name
 
-	def current_occupant(self):
-		try:
-			return Tenure.objects.get(position=self, end_date__isnull=True)
-		except Tenure.MultipleObjectsReturned:
-			raise u'More than one current occupant'
+	def current_occupants(self):
+		return Tenure.objects.filter(position=self, end_date__isnull=True)
 		
-	def previous_occupants(self, count=5):
+	def previous_occupants(self):
 		previous_occupants = Tenure.objects.filter(position=self, end_date__isnull=False).order_by('-end_date')
-		return previous_occupants[count]
+		return previous_occupants
 
 
 class Tenure(models.Model):

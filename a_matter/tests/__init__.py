@@ -25,9 +25,9 @@ class AMatterTestCase(TestCase):
             name = 'Los Angeles Times',
             slug = 'los-angeles-times',
         )
-        columnist = Position.objects.create(
-            name = 'Columnist and Reporter',
-            slug = 'columnist-and-reporter',
+        reporter = Position.objects.create(
+            name = 'Metro Reporter',
+            slug = 'metro-reporter',
             organization = latimes
         )
         ruben_salazar = Person.objects.create(
@@ -44,7 +44,7 @@ class AMatterTestCase(TestCase):
         ruben_salazar.person_types.add(journalist)
         ruben_salazar.save()
         tenure = Tenure.objects.create(
-            position = columnist,
+            position = reporter,
             person = ruben_salazar,
             start_date = '1959-01-01',
             end_date = '1970-08-29'
@@ -55,11 +55,6 @@ class AMatterTestCase(TestCase):
             slug = 'los-angeles',
             description = 'A city in California, USA.',
             point = Point(34, -118.3)
-        )
-        reporter = Position.objects.create(
-            name = 'Metro Reporter',
-            slug = 'metro-reporter',
-            organization = latimes
         )
         robert_lopez = Person.objects.create(
             first_name = 'Robert',
