@@ -17,7 +17,7 @@ class AMatterViewTests(AMatterTestCase):
 		"""
 		Test the generic object_list views.
 		"""
-		slug_list = ['organization', 'position', 'person-type', 'people']
+		slug_list = ['organization', 'position', 'person-type', 'people', 'changelog']
 		for slug in slug_list:
 			url = '/%s/list/' % slug
 			response = self.client.get(url)
@@ -29,6 +29,10 @@ class AMatterViewTests(AMatterTestCase):
 		Test the generic object_detail views.
 		"""
 		robert, ruben = self.createReporters()
+		# Index
+		url = ''
+		response = self.client.get(url)
+		self.failUnlessEqual(response.status_code, 200)
 		# Organization
 		url = ruben.positions.all()[0].organization.get_absolute_url()
 		response = self.client.get(url)

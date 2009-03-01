@@ -7,6 +7,11 @@ def index(request):
 	return render_to_response('demo/index.html',
 								{})
 
+def changelog(request):
+	return object_list(request, queryset = Person.objects.live().order_by('-last_edited'),
+						template_name = 'demo/changelog.html',
+						extra_context = {'angle': 'Change Log'})
+
 def organization_list(request):
 	return object_list(request, queryset = Organization.objects.all(),
 						template_name = 'demo/organization_list.html',
@@ -49,7 +54,7 @@ def person_detail(request, slug):
 	qs = get_object_or_404(Person, slug=slug)
 	return render_to_response('demo/person_detail.html',
 								{'object': qs,
-								 'angle': 'Person',})
+								 'angle': 'People',})
 
 # Pages
 # Recently edited pages
