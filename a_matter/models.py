@@ -23,8 +23,8 @@ class PersonType(models.Model):
 		Athlete
 
 	"""
-	name = models.CharField(_('name'), max_length=100, help_text=_('100 characters maximum.'))
-	slug = models.SlugField(_('slug'), unique=True, help_text=_('For use in URL strings. Must be unique.'))
+	name = models.CharField(max_length=100, help_text=_('100 characters maximum.'))
+	slug = models.SlugField(unique=True, help_text=_('For use in URL strings. Must be unique.'))
 	description = models.TextField(_('description'), null=True, blank=True, help_text=_('reST markup expected. Optional.'))
 	person_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of biographies published about this type.'))
 
@@ -60,7 +60,7 @@ class Organization(models.Model):
 	alumni_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of biographies published about former employees'))
 
 	# Meta
-	is_public = models.BooleanField(default=False, help_text=_('If this box is checked, the entry will be published.'))
+	is_public = models.BooleanField(default=False, verbose_name=_('Published'), help_text=_('If this box is checked, the entry will be published.'))
 	enable_comments = models.BooleanField(default=True)
 	tags = TagField(null=True, blank=True, help_text=_('Separate tags with spaces. Connect multiple words with dashes. Ex. great-depression-two'))
 	created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -241,26 +241,26 @@ class Person(models.Model):
 		('F', 'Female'),
 	)
 	# Identification
-	prefix = models.CharField(_('title or honorary prefix'), blank=True, null=True, max_length=10, help_text=_('10 characters maximum.'))
-	first_name = models.CharField(_('first name'), max_length=100, help_text=_('100 characters maximum.'))
-	middle_name = models.CharField(_('middle name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
-	last_name = models.CharField(_('last name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
-	nickname = models.CharField(_('nick name'), blank=True, null=True, max_length=100, help_text=_('100 characters maximum. Optional.'))
-	suffix = models.CharField(_('suffix'), blank=True, null=True, max_length=10, help_text=_('10 characters maximum.'))
-	slug = models.SlugField(_('slug'), unique=True, help_text=_('For use in URL strings. Must be unique.'))
-	gender = models.CharField(_('gender'), choices=GENDER_CHOICES, blank=True, null=True, max_length=1)
-	mugshot = models.FileField(_('mugshot'), upload_to='mugshots', blank=True, null=True)
-	mugshot_credit = models.CharField(_('mugshot credit'), blank=True, null=True, max_length=200, help_text=_('200 characters maximum.'))
+	prefix = models.CharField(blank=True, null=True, max_length=10, help_text=_('Title or honorary prefix. 10 characters maximum.'))
+	first_name = models.CharField(max_length=100, help_text=_('100 characters maximum.'))
+	middle_name = models.CharField(blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
+	last_name = models.CharField(blank=True, null=True, max_length=100, help_text=_('100 characters maximum.'))
+	nickname = models.CharField(blank=True, null=True, max_length=100, help_text=_('100 characters maximum. Optional.'))
+	suffix = models.CharField(blank=True, null=True, max_length=10, help_text=_('10 characters maximum.'))
+	slug = models.SlugField(unique=True, help_text=_('For use in URL strings. Must be unique.'))
+	gender = models.CharField(choices=GENDER_CHOICES, blank=True, null=True, max_length=1)
+	mugshot = models.FileField(upload_to='mugshots', blank=True, null=True)
+	mugshot_credit = models.CharField(blank=True, null=True, max_length=200, help_text=_('200 characters maximum.'))
 
 	# Origin
-	birth_date = models.DateField(_('birth date'), blank=True, null=True, help_text=_('YYYY-MM-DD format'))
-	date_of_death = models.DateField(_('date of death'), blank=True, null=True, help_text=_('YYYY-MM-DD format'))
+	birth_date = models.DateField(blank=True, null=True, help_text=_('YYYY-MM-DD format'))
+	date_of_death = models.DateField(blank=True, null=True, help_text=_('YYYY-MM-DD format'))
 	birth_place = models.ForeignKey('places.Place', blank=True, null=True, help_text=_('YYYY-MM-DD format'))
 
 	# Biography
 	person_types = models.ManyToManyField(PersonType, blank=True, null=True)
 	positions = models.ManyToManyField(Position, blank=True, null=True, through='Tenure')
-	entry = models.TextField(_('Biographical entry'), help_text=_('reST markup expected.'))
+	entry = models.TextField(help_text=_('reST markup expected.'))
 
 	# Meta
 	is_public = models.BooleanField(default=False, help_text=_('If this box is checked, the article will be published.'))
