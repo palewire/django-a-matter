@@ -8,8 +8,14 @@
 
 	<h3>{{ angle|title }}</h3>
 	<ul>
-		{% for obj in object_list %}
-			<li>{{ obj.name }}</li>
+		{% regroup object_list by organization as regrouped_list %}
+		{% for org in regrouped_list %}
+			<li>{{ org.grouper.name }} ({{ org.grouper.employee_count }} employees, {{ org.grouper.alumni_count }} alumni)</li>
+			<ul>
+			{% for obj in org.list %}
+				<li>{{ obj.name }} ({{ obj.count_current_occupants }} active, {{ obj.count_previous_occupants }} departed)</li>
+			{% endfor %}
+		</ul>
 		{% endfor %}
 	</ul>
 	
