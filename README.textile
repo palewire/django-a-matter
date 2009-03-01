@@ -23,3 +23,5 @@ h3. Questions for YOU
 
 * Is any of this crap useful?
 * Am I coupling things too tightly? Just right? What?
+
+Feedback, criticism and hatemail all welcome at palewire@palewire.com.
