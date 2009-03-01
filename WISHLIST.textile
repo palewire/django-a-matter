@@ -9,4 +9,3 @@ h1. The Wishlist
 * Write TEMPLATETAGS for a variety of lateral lists that might be nice (i.e. other people in a position, reverse-chron tenures for a person)
 * Write tests for MUGSHOTS upload
 * Find someway to update org counts on parent changes without sparking an infinite loop
-* Add SlugifyUniquely to the project and hide it away from the admin in custom save methods

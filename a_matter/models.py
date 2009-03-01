@@ -87,19 +87,33 @@ class Organization(models.Model):
 	has_entry.boolean = True
 		
 	def count_children(self):
+		"""
+		Count the number of children down the chain.
+		"""
 		child_count = self.organization_set.all().count()
 		if self.organization_set:
 			for child in self.organization_set.all():
+				# Run through any children recursively and append grandchildren et cetera.
 				child_count += child.count_children()
 		return child_count
 	count_children.short_description = _('Child count')
 
+	def get_children_queryset(self):
+		"""
+		Creates a queryset of all children down the chain.
+		"""
+		child_list = self.organization_set.all()
+		if self.organization_set:
+			for child in self.organization_set.all():
+				# Run through any children recursively and append grandchildren et cetera.
+				child_list = child_list | child.get_children_queryset()
+		return child_list
+		
 	def get_children(self):
 		"""
 		Creates a nice list of associated organizations for the admin.
 		"""
-		child_list = ", ".join([i.name for i in self.organization_set.all()])
-		return u'%s (%s)' % (child_list, self.count_children())
+		return u'%s (%s)' % (", ".join([i.name for i in self.get_children_queryset()]), self.count_children())
 	get_children.short_description = _('Children')
 
 	def count_employees(self):
@@ -120,27 +134,33 @@ class Organization(models.Model):
 				alumni_count += child.count_alumni()
 		return alumni_count
 
-"""
-	def save(self):
-		# State of parent field before save
-		before_parent = self.parent
-		print before_parent
-		# Rerun the counts for the record being saved
-		#self.employee_count = self.count_employees()
-		#self.alumni_count = self.count_alumni()
-		# Save the record
-		super(Organization, self).save()
-		# State of parent field after save
-		after_parent = self.parent
-		if before_parent != after_parent:
-			# go rerun its numbers
-			before_parent.employee_count = before_parent.count_employees()
-			before_parent.alumni_count = before_parent.count_alumni()
-			before_parent.parent.save()
-			after_parent.employee_count = after_parent.count_employees()
-			after_parent.alumni_count = after_parent.count_alumni()
-			after_parent.parent.save()
-"""
+	def save(self, force_insert=False, force_update=False):
+		"""
+		Custom save method that refills the autocount fields in cases where a parent is connected or disconnected via the admin.
+		"""
+		# Check whether the record already exists
+		try: 
+			existing_record = Organization.objects.get(pk=self.id)
+		except Organization.DoesNotExist:
+			existing_record = None
+		# If it does, then check whether the old version had a parent
+		try:
+			existing_parent = Organization.objects.get(pk=existing_record.parent.pk)
+		except AttributeError:
+			existing_parent = None
+		super(self.__class__, self).save(force_insert, force_update)
+		# If the old version had a parent, and its different from the new version
+		# Rerun the counts for the affected organizations.
+		if existing_parent != self.parent:
+			if existing_parent:
+				existing_parent.employee_count = existing_parent.count_employees()
+				existing_parent.alumni_count = existing_parent.count_alumni()
+				existing_parent.save()
+			if self.parent:
+				self.parent.employee_count = self.parent.count_employees()
+				self.parent.alumni_count = self.parent.count_alumni()
+				self.parent.save()
+			
 
 class Position(models.Model):
 	"""
