@@ -1,5 +1,4 @@
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.views.generic.list_detail import object_list
 
 from a_matter.models import *
@@ -23,6 +22,11 @@ def person_type_list(request):
 						template_name = 'demo/person_type_list.html',
 						extra_context = {'angle': 'Person Type'})
 
+def organization_detail(request, slug):
+	qs = get_object_or_404(Organization, slug=slug)
+	return render_to_response('demo/organization_detail.html',
+								{'object': qs,
+								 'angle': 'Organization',})
 
 # Pages
 # Recently edited pages
@@ -34,3 +38,4 @@ def person_type_list(request):
 # organization detail page
 # position detail page
 # person type detail page
+# Would it be possible to tree out the Organizations by parent child relationships?

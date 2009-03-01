@@ -11,6 +11,8 @@ from a_matter.managers import TenureManager, PersonManager
 
 import datetime
 
+from django.db.models import permalink
+
 
 class PersonType(models.Model):
 	"""
@@ -77,6 +79,10 @@ class Organization(models.Model):
 		
 	def __unicode__(self):
 		return self.name
+		
+	def get_absolute_url(self):
+	    return ('organization-detail', [self.slug])
+	get_absolute_url = permalink(get_absolute_url)
 		
 	def has_entry(self):
 		if self.entry:
