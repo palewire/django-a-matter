@@ -7,5 +7,20 @@
 {% block content %}
 
 	<h3>{{ object|title }}</h3>
+	
+	<h4>{{ object.get_person_types_html|safe }}</h4>
+	
+	<h4>Vitals</h4>
+	<ul>
+		{% if object.birth_date %}
+			<li>Born: {{ object.birth_date|date:"Y-m-d"}}</li>
+		{% endif %}
+		{% if object.date_of_death %}
+			<li>Died: {{ object.date_of_death|date:"Y-m-d"}}</li>
+		{% endif %}
+		<li>Gender: {{ object.get_gender_display }}</li>
+		<li>Born: {{ object.birth_place.name }}</li>
+	</ul>
+	
 
 {% endblock %}

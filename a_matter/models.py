@@ -359,6 +359,13 @@ class Person(models.Model):
 		return ", ".join([i.name for i in self.person_types.all()])
 	get_person_types.short_description = _('Person Type')
 	
+	def get_person_types_html(self):
+		"""
+		Creates a nice hyperlinked list of associated person_types for the person_detail page.
+		"""
+		return ", ".join(['<a href="%s">%s</a>' % (i.get_absolute_url(), i.name) for i in self.person_types.all()])
+	get_person_types.short_description = _('Person Type')
+	
 	def get_current_positions(self):
 		"""
 		Creates a nice list of active jobs for the admin.
@@ -369,5 +376,3 @@ class Person(models.Model):
 # Rerun the totals whenever a Person is saved or deleted.
 signals.post_save.connect(update_counts, sender=Person)
 signals.post_delete.connect(update_counts, sender=Person)
-
-

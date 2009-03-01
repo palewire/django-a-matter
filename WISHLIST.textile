@@ -10,3 +10,4 @@ h1. The Wishlist
 * Write TEMPLATETAGS for a variety of lateral lists that might be nice (i.e. other people in a position, reverse-chron tenures for a person)
 * Write tests for MUGSHOTS upload
 * Write up some robust fixtures that can preload and show people how the app works. I think it should be in a load.py thing like geodjango demos.
+* Some way to track and group people by education? Can that be done by education (position = studen)
