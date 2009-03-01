@@ -159,7 +159,7 @@ class Position(models.Model):
 	entry = models.TextField(null=True, blank=True, help_text=_('reST markup expected. Optional.'))
 
 	# Meta
-	is_public = models.BooleanField(default=False, help_text=_('If this box is checked, the entry will be published.'))
+	is_public = models.BooleanField(default=False, verbose_name=_('Published'), help_text=_('If this box is checked, the entry will be published.'))
 	enable_comments = models.BooleanField(default=True)
 	tags = TagField(null=True, blank=True, help_text=_('Separate tags with spaces. Connect multiple words with dashes. Ex. great-depression-two'))
 	created = models.DateTimeField(auto_now_add=True, editable=False)
