@@ -18,7 +18,7 @@ def organization_list(request):
 						extra_context = {'angle': 'Organization'})
 
 def position_list(request):
-	return object_list(request, queryset = Position.objects.all(),
+	return object_list(request, queryset = Position.objects.live(),
 						template_name = 'demo/position_list.html',
 						extra_context = {'angle': 'Position'})
 

@@ -14,3 +14,5 @@ h1. The Wishlist
 * Should i throw some tag bizness into the demo templates?
 * Straighten out uploading folders / urls
 * Prevent organization from setting itself as parent.
+* Position list should only bring back those with published profiles
+* Write tests for Position autocount fields and manager

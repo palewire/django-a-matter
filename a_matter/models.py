@@ -7,7 +7,7 @@ from tagging.fields import TagField
 from django.db.models import signals
 from a_matter.signals import update_counts
 
-from a_matter.managers import TenureManager, PersonManager
+from a_matter.managers import TenureManager, PersonManager, PositionManager
 
 import datetime
 
@@ -182,6 +182,15 @@ class Position(models.Model):
 		President
 		Secretary of Defense
 		Shooting Guard
+		
+	``Managers``
+
+	``live()``
+		The custom manager live() returns only changes with people whose pages are approved for publication. 
+
+		Example::
+
+			Position.objects.live()
 
 	"""
 	name = models.CharField(max_length=100, help_text=_('100 characters maximum.'))
@@ -197,6 +206,7 @@ class Position(models.Model):
 	tags = TagField(null=True, blank=True, help_text=_('Separate tags with spaces. Connect multiple words with dashes. Ex. great-depression-two'))
 	created = models.DateTimeField(auto_now_add=True, editable=False)
 	last_edited = models.DateTimeField(auto_now=True, editable=False)
+	objects = PositionManager()
 	
 	class Meta:
 		ordering = ('name',)
