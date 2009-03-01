@@ -1,4 +1,4 @@
-h2. The Wishlist
+h1. The Wishlist
 
 * Write some generic URLS to illustrate basic pages
 * Write some generic VIEWS for the same purpose
