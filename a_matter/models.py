@@ -77,7 +77,7 @@ class Organization(models.Model):
 			return True
 		else:
 			return False
-	has_entry.short_description = _('Has Entry')
+	has_entry.short_description = _('Entry')
 	has_entry.boolean = True
 		
 	def count_children(self):
@@ -87,7 +87,15 @@ class Organization(models.Model):
 				child_count += child.count_children()
 		return child_count
 	count_children.short_description = _('Child count')
-		
+
+	def get_children(self):
+		"""
+		Creates a nice list of associated organizations for the admin.
+		"""
+		child_list = ", ".join([i.name for i in self.organization_set.all()])
+		return u'%s (%s)' % (child_list, self.count_children())
+	get_children.short_description = _('Children')
+
 	def count_employees(self):
 		positions = self.position_set.all()
 		occupied_positions = Tenure.objects.filter(position__in=positions, end_date__isnull=True, person__is_public=True)
@@ -105,7 +113,28 @@ class Organization(models.Model):
 			for child in self.organization_set.all():
 				alumni_count += child.count_alumni()
 		return alumni_count
-		
+
+"""
+	def save(self):
+		# State of parent field before save
+		before_parent = self.parent
+		print before_parent
+		# Rerun the counts for the record being saved
+		#self.employee_count = self.count_employees()
+		#self.alumni_count = self.count_alumni()
+		# Save the record
+		super(Organization, self).save()
+		# State of parent field after save
+		after_parent = self.parent
+		if before_parent != after_parent:
+			# go rerun its numbers
+			before_parent.employee_count = before_parent.count_employees()
+			before_parent.alumni_count = before_parent.count_alumni()
+			before_parent.parent.save()
+			after_parent.employee_count = after_parent.count_employees()
+			after_parent.alumni_count = after_parent.count_alumni()
+			after_parent.parent.save()
+"""
 
 class Position(models.Model):
 	"""
@@ -266,14 +295,14 @@ class Person(models.Model):
 	
 	def get_person_types(self):
 		"""
-		Creates a nice list of associated person_types for the admin
+		Creates a nice list of associated person_types for the admin.
 		"""
 		return ", ".join([i.name for i in self.person_types.all()])
 	get_person_types.short_description = _('Person Type')
 	
 	def get_current_positions(self):
 		"""
-		Creates a nice list of active jobs for the admin
+		Creates a nice list of active jobs for the admin.
 		"""
 		return ", ".join([i.position.__unicode__() for i in Tenure.objects.active().filter(person=self)])
 	get_current_positions.short_description = _('Current Position(s)')

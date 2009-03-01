@@ -40,7 +40,7 @@ admin.site.register(Position, PositionAdmin)
 
 
 class OrganizationAdmin(OSMGeoAdmin):
-	list_display = ('name', 'count_children', 'employee_count', 'alumni_count', 'has_entry', 'is_public')
+	list_display = ('name', 'parent', 'get_children', 'employee_count', 'alumni_count', 'has_entry', 'is_public')
 	list_filter = ('is_public',)
 	prepopulated_fields = {"slug": ("name",)}
 

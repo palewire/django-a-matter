@@ -54,6 +54,7 @@ class AMatterModelTests(AMatterTestCase):
 		self.assertEqual(ruben.positions.all()[0].organization.parent.headquarters.name, 'Chicago')
 		self.assertEqual(ruben.positions.all()[0].organization.parent.headquarters.point.wkt, 'POINT (41.8500000000000014 -87.6500000000000057)')
 		self.assertEqual(ruben.positions.all()[0].organization.has_entry(), False)
+		self.assertEqual(ruben.positions.all()[0].organization.parent.get_children(), 'Los Angeles Times (1)')
 		self.assertEqual(ruben.positions.all()[0].organization.count_employees(), 1)
 		self.assertEqual(ruben.positions.all()[0].organization.count_alumni(), 1)
 		self.assertEqual(ruben.positions.all()[0].organization.parent.organization_set.all().count(), 1)
