@@ -9,6 +9,7 @@ This application is in the early stages of development and shouldn't be expected
 h3. Dependencies
 
 * "django 1.0":http://www.djangoproject.com/weblog/2008/sep/03/1/
+* "django.contrib.gis a.k.a GeoDjango":http://geodjango.org/
 * "django-places":http://github.com/palewire/django-places/tree/master
 * "django-tagging":http://code.google.com/p/django-tagging/
 

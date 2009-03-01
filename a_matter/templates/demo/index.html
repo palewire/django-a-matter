@@ -1,0 +1,14 @@
+{% extends "demo/base.html" %}
+
+{% block content %}
+
+<h3>Lists</h3>
+<ul>
+	<li><a href="{% url organization-list %}">Organization list</a></li>
+
+	<li><a href="{% url position-list %}">Position list</a></li>
+
+	<li><a href="{% url person-type-list %}">Person Type list</a></li>
+</ul>
+
+{% endblock %}

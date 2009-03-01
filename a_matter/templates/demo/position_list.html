@@ -1,0 +1,16 @@
+{% extends "demo/index.html" %}
+
+{% block title %}{{ angle|lower }} - {{ block.super }}{% endblock %}
+
+{% block nav %}{{ block.super }} > <a href="{% url position-list %}">{{ angle|title }}</a>{% endblock %}
+
+{% block content %}
+
+	<h3>{{ angle|title }}</h3>
+	<ul>
+		{% for obj in object_list %}
+			<li>{{ obj.name }}</li>
+		{% endfor %}
+	</ul>
+	
+{% endblock %}
