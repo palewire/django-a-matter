@@ -137,11 +137,11 @@ class Tenure(models.Model):
 	``Managers``
 
 	``active()``
-	  The custom manager acrive() returns only changes where `end_date` is null. 
+		The custom manager acrive() returns only changes where `end_date` is null. 
 
-	  Example::
+		Example::
 
-		Tenure.objects.active()
+			Tenure.objects.active()
 
 	"""
 	position = models.ForeignKey(Position)
@@ -180,11 +180,11 @@ class Person(models.Model):
 	``Managers``
 
 	``live()``
-	  The custom manager live() returns only changes where `is_public` is True. 
+		The custom manager live() returns only changes where `is_public` is True. 
 
-	  Example::
+		Example::
 
-		Person.objects.live()
+			Person.objects.live()
 
 	"""
 	GENDER_CHOICES = (
