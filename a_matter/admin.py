@@ -18,15 +18,9 @@ class PersonAdmin(OSMGeoAdmin):
 	]
 	list_display = ('get_full_name', 'get_person_types')
 	list_filter = ('person_types', 'gender', 'is_public',)
-	date_hierarchy = 'birth_date'
-	search_fields = ('last_name', 'middle_name', 'first_name',)
+	filter_horizontal = ('person_types',)
 	prepopulated_fields = {"slug": ("first_name", "middle_name", "last_name")}
-	search_fields = ["first_name", "middle_name", "last_name"]
-	# Admin map settings
-	layerswitcher = False
-	scrollable = False
-	map_width = 700
-	map_height = 325
+	search_fields = ["first_name", "middle_name", "last_name", "entry",]
 
 admin.site.register(Person, PersonAdmin)
 
