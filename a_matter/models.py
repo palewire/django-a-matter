@@ -30,6 +30,7 @@ class PersonType(models.Model):
 
 	class Meta:
 		verbose_name = _('person type')
+		verbose_name_plural = _('Person Types')
 		ordering = ('name',)
 
 	def __unicode__(self):
@@ -71,6 +72,22 @@ class Organization(models.Model):
 	def __unicode__(self):
 		return self.name
 		
+	def has_entry(self):
+		if self.entry:
+			return True
+		else:
+			return False
+	has_entry.short_description = _('Has Entry')
+	has_entry.boolean = True
+		
+	def count_children(self):
+		child_count = self.organization_set.all().count()
+		if self.organization_set:
+			for child in self.organization_set.all():
+				child_count += child.count_children()
+		return child_count
+	count_children.short_description = _('Child count')
+		
 	def count_employees(self):
 		positions = self.position_set.all()
 		occupied_positions = Tenure.objects.filter(position__in=positions, end_date__isnull=True, person__is_public=True)
@@ -88,7 +105,7 @@ class Organization(models.Model):
 			for child in self.organization_set.all():
 				alumni_count += child.count_alumni()
 		return alumni_count
-
+		
 
 class Position(models.Model):
 	"""
@@ -264,3 +281,5 @@ class Person(models.Model):
 # Rerun the totals whenever a Person is saved or deleted.
 signals.post_save.connect(update_counts, sender=Person)
 signals.post_delete.connect(update_counts, sender=Person)
+
+

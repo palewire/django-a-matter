@@ -1,7 +1,6 @@
 from django.db.models import signals
 from django.dispatch import dispatcher
 
-
 def update_counts(sender, instance, signal, *args, **kwargs):
 	"""
 	Runs through all the models and updates counts.
