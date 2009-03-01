@@ -36,7 +36,7 @@ admin.site.register(PersonType, PersonTypeAdmin)
 
 
 class PositionAdmin(OSMGeoAdmin):
-	list_display = ('name', 'organization', 'count_current_occupants', 'count_previous_occupants', 'has_entry', 'is_public',)
+	list_display = ('name', 'organization', 'current_occupant_count', 'previous_occupant_count', 'has_entry', 'is_public',)
 	list_filter = ('is_public',)
 	prepopulated_fields = {"slug": ("name",)}
 

@@ -187,6 +187,8 @@ class Position(models.Model):
 	slug = models.SlugField(unique=True, help_text=_('For use in URL strings. Must be unique.'))
 	organization = models.ForeignKey(Organization, null=True, blank=True)
 	entry = models.TextField(null=True, blank=True, help_text=_('textile markup expected. Optional.'))
+	current_occupant_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of active people in this position.'))
+	previous_occupant_count = models.IntegerField(default=0, editable=False, help_text=_('The total number of people who once held this position, but have departed.'))
 
 	# Meta
 	is_public = models.BooleanField(default=False, verbose_name=_('Published'), help_text=_('If this box is checked, the entry will be published.'))
@@ -218,19 +220,20 @@ class Position(models.Model):
 	has_entry.boolean = True
 
 	def get_current_occupants(self):
-		return Tenure.objects.filter(position=self, end_date__isnull=True)
+		return Tenure.objects.filter(position=self, end_date__isnull=True, person__is_public=True)
 		
 	def count_current_occupants(self):
 		return len(self.get_current_occupants())
 	count_current_occupants.short_description = _('Active')
 		
 	def get_previous_occupants(self):
-		previous_occupants = Tenure.objects.filter(position=self, end_date__isnull=False).order_by('-end_date')
+		previous_occupants = Tenure.objects.filter(position=self, end_date__isnull=False, person__is_public=True).order_by('-end_date')
 		return previous_occupants
 		
 	def count_previous_occupants(self):
 		return len(self.get_previous_occupants())
 	count_previous_occupants.short_description = _('Departed')
+
 
 class Tenure(models.Model):
 	"""
@@ -318,7 +321,7 @@ class Person(models.Model):
 	entry = models.TextField(help_text=_('textile markup expected.'))
 
 	# Meta
-	is_public = models.BooleanField(default=False, help_text=_('If this box is checked, the article will be published.'))
+	is_public = models.BooleanField(default=False, verbose_name=_('Published'), help_text=_('If this box is checked, the article will be published.'))
 	enable_comments = models.BooleanField(default=True)
 	tags = TagField(null=True, blank=True, help_text=_('Separate tags with spaces. Connect multiple words with dashes. Ex. great-depression-two'))
 	created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -372,7 +375,10 @@ class Person(models.Model):
 		"""
 		return ", ".join([i.position.__unicode__() for i in Tenure.objects.active().filter(person=self)])
 	get_current_positions.short_description = _('Current Position(s)')
-	
+
+
 # Rerun the totals whenever a Person is saved or deleted.
 signals.post_save.connect(update_counts, sender=Person)
 signals.post_delete.connect(update_counts, sender=Person)
+signals.post_save.connect(update_counts, sender=Tenure)
+signals.post_delete.connect(update_counts, sender=Tenure)
