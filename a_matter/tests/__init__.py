@@ -91,3 +91,4 @@ class AMatterTestCase(TestCase):
         return robert_lopez, ruben_salazar
 
 from a_matter.tests.unittests.model_tests import *
+from a_matter.tests.unittests.signal_tests import *
