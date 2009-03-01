@@ -1,0 +1,24 @@
+{% extends "demo/index.html" %}
+
+{% block title %}{{ angle|lower }} - {{ block.super }}{% endblock %}
+
+{% block nav %}{{ block.super }} > <a href="{% url position-list %}">{{ angle|title }}</a>{% endblock %}
+
+{% block content %}
+
+	<h3>{{ angle|title }}</h3>
+	<ul>
+	{% regroup object_list by last_name|first|upper as letters %}
+    {% for letter in letters %}
+		<h3>{{ letter.grouper }}</h3>
+			{% for obj in letter.list %}
+			<li>
+				<a href="{{ obj.get_absolute_url }}">
+					{{ obj.get_full_name }}
+				</a>
+			</li>
+			{% endfor %}
+    {% endfor %}
+	</ul>
+	
+{% endblock %}

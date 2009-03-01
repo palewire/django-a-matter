@@ -332,7 +332,11 @@ class Person(models.Model):
 
 	def __unicode__(self):
 		return self.get_full_name()
-		
+
+	def get_absolute_url(self):
+		return ('person-detail', [self.slug])
+	get_absolute_url = permalink(get_absolute_url)
+
 	def get_full_name(self):
 		"""
 		Formats a person's full title as a single string.

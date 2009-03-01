@@ -21,6 +21,11 @@ def person_type_list(request):
 	return object_list(request, queryset = PersonType.objects.all(),
 						template_name = 'demo/person_type_list.html',
 						extra_context = {'angle': 'Person Type'})
+						
+def people_list(request):
+	return object_list(request, queryset = Person.objects.live(),
+						template_name = 'demo/people_list.html',
+						extra_context = {'angle': 'People'})
 
 def organization_detail(request, slug):
 	qs = get_object_or_404(Organization, slug=slug)
@@ -39,6 +44,12 @@ def person_type_detail(request, slug):
 	return render_to_response('demo/person_type_detail.html',
 								{'object': qs,
 								 'angle': 'Person Type',})
+
+def person_detail(request, slug):
+	qs = get_object_or_404(Person, slug=slug)
+	return render_to_response('demo/person_detail.html',
+								{'object': qs,
+								 'angle': 'Person',})
 
 # Pages
 # Recently edited pages
