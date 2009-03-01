@@ -28,12 +28,15 @@ admin.site.register(Person, PersonAdmin)
 
 
 class PersonTypeAdmin(OSMGeoAdmin):
+	list_display = ('name', 'person_count', 'short_description')
 	prepopulated_fields = {"slug": ("name",)}
 
 admin.site.register(PersonType, PersonTypeAdmin)
 
 
 class PositionAdmin(OSMGeoAdmin):
+	list_display = ('name', 'organization', 'count_current_occupants', 'count_previous_occupants', 'has_entry', 'is_public',)
+	list_filter = ('is_public',)
 	prepopulated_fields = {"slug": ("name",)}
 
 admin.site.register(Position, PositionAdmin)

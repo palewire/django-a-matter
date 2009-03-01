@@ -36,6 +36,12 @@ class PersonType(models.Model):
 	def __unicode__(self):
 		return self.name
 		
+	def short_description(self):
+		if self.description:
+			return self.description[:100]
+		else:
+			return None
+		
 	def count_people(self):
 		return self.person_set.live().count()
 
@@ -169,13 +175,28 @@ class Position(models.Model):
 		else:
 			return u'%s (Unaffiliated)' % (self.name)
 
+	def has_entry(self):
+		if self.entry:
+			return True
+		else:
+			return False
+	has_entry.short_description = _('Entry')
+	has_entry.boolean = True
+
 	def current_occupants(self):
 		return Tenure.objects.filter(position=self, end_date__isnull=True)
+		
+	def count_current_occupants(self):
+		return len(self.current_occupants())
+	count_current_occupants.short_description = _('Active')
 		
 	def previous_occupants(self):
 		previous_occupants = Tenure.objects.filter(position=self, end_date__isnull=False).order_by('-end_date')
 		return previous_occupants
-
+		
+	def count_previous_occupants(self):
+		return len(self.previous_occupants())
+	count_previous_occupants.short_description = _('Departed')
 
 class Tenure(models.Model):
 	"""
