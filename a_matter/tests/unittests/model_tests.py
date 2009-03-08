@@ -67,6 +67,7 @@ class AMatterModelTests(AMatterTestCase):
 		self.assertEqual(ruben.positions.all()[0].organization.parent.count_children(), 1)
 		self.assertEqual(list(ruben.positions.all()[0].organization.parent.get_children_queryset()), [Organization.objects.get(name='Los Angeles Times')])
 		self.assertEqual(ruben.positions.all()[0].organization.parent.get_children(), 'Los Angeles Times (1)')
+		self.assertEqual(ruben.positions.all()[0].organization.parent.get_children_html(), '<a href="%s">%s</a>' % (Organization.objects.get(name='Los Angeles Times').get_absolute_url(), 'Los Angeles Times'))
 		self.assertEqual(ruben.positions.all()[0].organization.parent.count_employees(), 1)
 		self.assertEqual(ruben.positions.all()[0].organization.parent.count_alumni(), 1)
 		# Tenure
