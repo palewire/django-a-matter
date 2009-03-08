@@ -8,4 +8,20 @@
 
 	<h3>{{ object|title }}</h3>
 
+	{% if object.description %}
+		<h4>{{ object.description }}</h4>
+	{% endif %}
+	
+	{% if object.person_count %}
+		<h4>{{ object.person_count }} entr{{ object.person_count|pluralize:"y,ies"}}</h4>
+	{% endif %}
+	
+	{% if object.person_set.all %}
+		<ul>
+		{% for person in object.person_set.all %}
+			<li><a href="{{ person.get_absolute_url }}">{{ person.get_full_name }}</a></li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+
 {% endblock %}
