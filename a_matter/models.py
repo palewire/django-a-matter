@@ -126,6 +126,12 @@ class Organization(models.Model):
 		"""
 		return u'%s (%s)' % (", ".join([i.name for i in self.get_children_queryset()]), self.count_children())
 	get_children.short_description = _('Children')
+	
+	def get_children_html(self):
+		"""
+		Creates a nice hyperlinked list of associated organizations.
+		"""
+		return ", ".join(['<a href="%s">%s</a>' % (i.get_absolute_url(), i.name) for i in self.get_children_queryset()])
 
 	def count_employees(self):
 		positions = self.position_set.all()

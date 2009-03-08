@@ -16,3 +16,4 @@ h1. The Wishlist
 * Prevent organization from setting itself as parent.
 * Position list should only bring back those with published profiles
 * Write tests for Position autocount fields and manager
+* Can I replace my text list things with the utils functions?

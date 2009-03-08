@@ -8,4 +8,32 @@
 
 	<h3>{{ object|title }}</h3>
 
+	{% if object.parent %}
+		<h4>A subsidiary of <a href="{{ object.parent.get_absolute_url }}">{{ object.parent.name }}</a></h4>
+	{% endif %}
+
+	{% if object.headquarters %}
+		<h4> Headquarters: {{ object.headquarters.name }}</h4>
+	{% endif %}
+
+	{% if object.employee_count %}
+	<h4>Current employees: {{ object.employee_count }}</h4>
+	{% endif %}
+	
+	{% if object.alumni_count %}
+		<h4>Departed employees: {{ object.alumni_count }}</h4>
+	{% endif %}
+
+	{% if object.get_children_html %}
+		<h4>Subsidiaries: {{ object.get_children_html|safe }}</h4>
+	{% endif %}
+
+	{% if object.entry %}
+		<h4>Entry</h4>
+		{% load markup%}
+		{{ object.entry|textile }}
+	{% endif %}
+	
+	
+
 {% endblock %}
